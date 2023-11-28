@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4A8C32B8-188B-4FF2-A452-03D881829740}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>E_Commerce_Temp_47</RootNamespace>
+    <AssemblyName>E_Commerce_Temp_47</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44388</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AccessController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AboutController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BranchController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Models\Contact.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Infra\Common.cs" />
+    <Compile Include="Infra\CommonMethods.cs" />
+    <Compile Include="Infra\EntitiesBase.cs" />
+    <Compile Include="Infra\LogEntry.cs" />
+    <Compile Include="Infra\MenuAccess.cs" />
+    <Compile Include="Infra\ResponseModel.cs" />
+    <Compile Include="Infra\StatusCode.cs" />
+    <Compile Include="Infra\ValidateField.cs" />
+    <Compile Include="Models\Attachment.cs" />
+    <Compile Include="Areas\Admin\Models\Branch.cs" />
+    <Compile Include="Areas\Admin\Models\Company.cs" />
+    <Compile Include="Infra\DataContext.cs" />
+    <Compile Include="Areas\Admin\Models\Department.cs" />
+    <Compile Include="Areas\Admin\Models\Employee.cs" />
+    <Compile Include="Models\ErrorViewModel.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\Lov_Master.cs" />
+    <Compile Include="Areas\Admin\Models\Menu.cs" />
+    <Compile Include="Areas\Admin\Models\Role.cs" />
+    <Compile Include="Areas\Admin\Models\RoleMenuAccess.cs" />
+    <Compile Include="Areas\Admin\Models\User.cs" />
+    <Compile Include="Areas\Admin\Models\UserLog.cs" />
+    <Compile Include="Areas\Admin\Models\UserMenuAccess.cs" />
+    <Compile Include="Areas\Admin\Models\UserRole.cs" />
+    <Compile Include="Areas\Admin\Models\UserRoleMapping.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Admin\dist\css\adminlte.css" />
+    <Content Include="Content\Admin\dist\css\adminlte.min.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.components.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.components.min.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.core.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.core.min.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.extra-components.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.extra-components.min.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.pages.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.pages.min.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.plugins.css" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.plugins.min.css" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\Admin\plugins\datatables-bs4\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\Admin\plugins\datatables-bs4\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\Admin\plugins\datatables-bs4\js\dataTables.bootstrap4.js" />
+    <Content Include="Content\Admin\plugins\datatables-bs4\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Content\Admin\plugins\datatables-responsive\css\responsive.bootstrap4.css" />
+    <Content Include="Content\Admin\plugins\datatables-responsive\css\responsive.bootstrap4.min.css" />
+    <Content Include="Content\Admin\plugins\datatables-responsive\js\dataTables.responsive.js" />
+    <Content Include="Content\Admin\plugins\datatables-responsive\js\dataTables.responsive.min.js" />
+    <Content Include="Content\Admin\plugins\datatables-responsive\js\responsive.bootstrap4.js" />
+    <Content Include="Content\Admin\plugins\datatables-responsive\js\responsive.bootstrap4.min.js" />
+    <Content Include="Content\Admin\plugins\datatables\jquery.dataTables.js" />
+    <Content Include="Content\Admin\plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\daterangepicker.css" />
+    <Content Include="Content\Admin\plugins\daterangepicker\daterangepicker.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\drp.png" />
+    <Content Include="Content\Admin\plugins\daterangepicker\example\amd\index.html" />
+    <Content Include="Content\Admin\plugins\daterangepicker\example\amd\main.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\example\amd\require.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\example\browserify\bundle.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\example\browserify\index.html" />
+    <Content Include="Content\Admin\plugins\daterangepicker\example\browserify\main.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\moment.min.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\package.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\website.css" />
+    <Content Include="Content\Admin\plugins\daterangepicker\website.js" />
+    <Content Include="Content\Admin\plugins\daterangepicker\website\index.html" />
+    <Content Include="Content\Admin\plugins\daterangepicker\website\website.css" />
+    <Content Include="Content\Admin\plugins\daterangepicker\website\website.js" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\all.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\all.min.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\brands.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\brands.min.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\fontawesome.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\fontawesome.min.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\regular.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\regular.min.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\solid.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\solid.min.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\svg-with-js.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\svg-with-js.min.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\v4-shims.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\css\v4-shims.min.css" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-brands-400.svg" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-regular-400.svg" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-solid-900.svg" />
+    <Content Include="Content\Admin\plugins\icheck-bootstrap\icheck-bootstrap.css" />
+    <Content Include="Content\Admin\plugins\icheck-bootstrap\icheck-bootstrap.min.css" />
+    <Content Include="Content\Admin\plugins\inputmask\bindings\inputmask.binding.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\bindings\inputmask.binding.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\dependencyLibs\inputmask.dependencyLib.jqlite.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\dependencyLibs\inputmask.dependencyLib.jquery.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\dependencyLibs\inputmask.dependencyLib.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\global\window.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\inputmask.date.extensions.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\inputmask.extensions.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\inputmask.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\inputmask.numeric.extensions.js" />
+    <Content Include="Content\Admin\plugins\inputmask\inputmask\jquery.inputmask.js" />
+    <Content Include="Content\Admin\plugins\inputmask\jquery.inputmask.bundle.js" />
+    <Content Include="Content\Admin\plugins\inputmask\jquery.inputmask.js" />
+    <Content Include="Content\Admin\plugins\inputmask\jquery.inputmask.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\bindings\inputmask.binding.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\dependencyLibs\inputmask.dependencyLib.jqlite.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\dependencyLibs\inputmask.dependencyLib.jquery.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\dependencyLibs\inputmask.dependencyLib.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\global\window.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\inputmask.date.extensions.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\inputmask.extensions.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\inputmask.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\inputmask.numeric.extensions.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\inputmask\jquery.inputmask.min.js" />
+    <Content Include="Content\Admin\plugins\inputmask\min\jquery.inputmask.bundle.min.js" />
+    <Content Include="Content\Admin\plugins\jquery-ui\AUTHORS.txt" />
+    <Content Include="Content\Admin\plugins\jquery-ui\external\jquery\jquery.js" />
+    <Content Include="Content\Admin\plugins\jquery-ui\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\Admin\plugins\jquery-ui\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\Admin\plugins\jquery-ui\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\Admin\plugins\jquery-ui\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\Admin\plugins\jquery-ui\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\Admin\plugins\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.css" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.js" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.min.css" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.structure.css" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.structure.min.css" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.theme.css" />
+    <Content Include="Content\Admin\plugins\jquery-ui\jquery-ui.theme.min.css" />
+    <Content Include="Content\Admin\plugins\jquery-ui\LICENSE.txt" />
+    <Content Include="Content\Admin\plugins\jquery\core.js" />
+    <Content Include="Content\Admin\plugins\jquery\jquery.js" />
+    <Content Include="Content\Admin\plugins\jquery\jquery.min.js" />
+    <Content Include="Content\Admin\plugins\jquery\jquery.slim.js" />
+    <Content Include="Content\Admin\plugins\jquery\jquery.slim.min.js" />
+    <Content Include="Content\Admin\dist\js\adminlte.js" />
+    <Content Include="Content\Admin\dist\js\adminlte.min.js" />
+    <Content Include="Content\Admin\dist\js\demo.js" />
+    <Content Include="Content\Admin\dist\js\pages\dashboard.js" />
+    <Content Include="Content\Admin\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\Admin\dist\js\pages\dashboard3.js" />
+    <Content Include="Content\Admin\plugins\moment\locales.js" />
+    <Content Include="Content\Admin\plugins\moment\locales.min.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\af.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ar-dz.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ar-kw.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ar-ly.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ar-ma.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ar-sa.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ar-tn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ar.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\az.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\be.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\bg.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\bm.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\bn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\bo.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\br.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\bs.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ca.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\cs.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\cv.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\cy.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\da.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\de-at.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\de-ch.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\de.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\dv.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\el.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\en-au.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\en-ca.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\en-gb.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\en-ie.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\en-il.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\en-nz.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\en-SG.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\eo.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\es-do.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\es-us.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\es.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\et.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\eu.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\fa.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\fi.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\fo.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\fr-ca.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\fr-ch.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\fr.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\fy.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ga.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\gd.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\gl.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\gom-latn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\gu.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\he.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\hi.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\hr.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\hu.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\hy-am.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\id.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\is.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\it-ch.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\it.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ja.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\jv.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ka.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\kk.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\km.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\kn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ko.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ku.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ky.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\lb.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\lo.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\lt.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\lv.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\me.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\mi.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\mk.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ml.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\mn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\mr.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ms-my.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ms.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\mt.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\my.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\nb.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ne.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\nl-be.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\nl.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\nn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\pa-in.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\pl.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\pt-br.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\pt.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ro.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ru.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sd.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\se.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\si.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sk.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sl.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sq.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sr-cyrl.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sr.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ss.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sv.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\sw.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ta.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\te.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tet.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tg.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\th.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tl-ph.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tlh.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tr.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tzl.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tzm-latn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\tzm.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ug-cn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\uk.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\ur.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\uz-latn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\uz.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\vi.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\x-pseudo.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\yo.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\zh-cn.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\zh-hk.js" />
+    <Content Include="Content\Admin\plugins\moment\locale\zh-tw.js" />
+    <Content Include="Content\Admin\plugins\moment\moment-with-locales.js" />
+    <Content Include="Content\Admin\plugins\moment\moment-with-locales.min.js" />
+    <Content Include="Content\Admin\plugins\moment\moment.min.js" />
+    <Content Include="Content\Admin\plugins\select2\css\select2.css" />
+    <Content Include="Content\Admin\plugins\select2\css\select2.min.css" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\af.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ar.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\az.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\bg.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\bn.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\bs.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\build.txt" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ca.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\cs.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\da.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\de.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\dsb.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\el.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\en.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\es.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\et.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\eu.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\fa.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\fi.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\fr.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\gl.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\he.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\hi.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\hr.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\hsb.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\hu.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\hy.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\id.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\is.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\it.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ja.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ka.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\km.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ko.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\lt.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\lv.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\mk.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ms.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\nb.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ne.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\nl.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\pl.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ps.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\pt-BR.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\pt.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ro.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\ru.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\sk.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\sl.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\sq.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\sr-Cyrl.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\sr.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\sv.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\th.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\tk.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\tr.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\uk.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\vi.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\zh-CN.js" />
+    <Content Include="Content\Admin\plugins\select2\js\i18n\zh-TW.js" />
+    <Content Include="Content\Admin\plugins\select2\js\select2.full.js" />
+    <Content Include="Content\Admin\plugins\select2\js\select2.full.min.js" />
+    <Content Include="Content\Admin\plugins\select2\js\select2.js" />
+    <Content Include="Content\Admin\plugins\select2\js\select2.min.js" />
+    <Content Include="Content\Admin\plugins\sweetalert2\sweetalert2.all.js" />
+    <Content Include="Content\Admin\plugins\sweetalert2\sweetalert2.all.min.js" />
+    <Content Include="Content\Admin\plugins\sweetalert2\sweetalert2.css" />
+    <Content Include="Content\Admin\plugins\sweetalert2\sweetalert2.js" />
+    <Content Include="Content\Admin\plugins\sweetalert2\sweetalert2.min.css" />
+    <Content Include="Content\Admin\plugins\sweetalert2\sweetalert2.min.js" />
+    <Content Include="Content\common.js" />
+    <Content Include="Database_Scripts\Initial.sql" />
+    <Content Include="Database_Scripts\script_About_Contact.sql" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-brands-400.eot" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-brands-400.ttf" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-brands-400.woff" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-brands-400.woff2" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-regular-400.eot" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-regular-400.ttf" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-regular-400.woff" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-regular-400.woff2" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-solid-900.eot" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-solid-900.ttf" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-solid-900.woff" />
+    <Content Include="Content\Admin\plugins\fontawesome-free\webfonts\fa-solid-900.woff2" />
+    <Content Include="Content\Admin\plugins\icheck-bootstrap\LICENSE" />
+    <Content Include="Content\Admin\dist\css\adminlte.css.map" />
+    <Content Include="Content\Admin\dist\css\adminlte.min.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.components.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.components.min.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.core.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.core.min.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.extra-components.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.extra-components.min.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.pages.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.pages.min.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.plugins.css.map" />
+    <Content Include="Content\Admin\dist\css\alt\adminlte.plugins.min.css.map" />
+    <Content Include="Content\Admin\plugins\jquery\jquery.min.map" />
+    <Content Include="Content\Admin\plugins\jquery\jquery.slim.min.map" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.js.map" />
+    <Content Include="Content\Admin\plugins\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="Content\Admin\dist\js\adminlte.js.map" />
+    <Content Include="Content\Admin\dist\js\adminlte.min.js.map" />
+    <Content Include="Content\Admin\plugins\daterangepicker\bower.json" />
+    <Content Include="Content\Admin\plugins\daterangepicker\example\browserify\README.md" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Branch\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Branch\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Access\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Access\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\About\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Index.cshtml" />
+    <None Include="packages.config" />
+    <Content Include="Views\Home\Login.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57726</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44388/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
