@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BaseStructure_47_Test
+namespace BaseStructure_47
 {
     public partial class UserLog
     {
