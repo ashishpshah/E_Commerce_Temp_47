@@ -1,5 +1,4 @@
-﻿using BaseStructure_47_Test;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -7,7 +6,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace BaseStructure_47
 {
@@ -30,6 +28,18 @@ namespace BaseStructure_47
 
 		public virtual DbSet<Contact> Contacts { get; set; }
 		public virtual DbSet<About> Abouts { get; set; }
+
+		#region E_Commerce
+
+		public virtual DbSet<EC_Category> EC_Category { get; set; }
+		public virtual DbSet<EC_Product> EC_Product { get; set; }
+		public virtual DbSet<EC_Product_Attribute_Value> EC_Product_Attribute_Value { get; set; }
+		public virtual DbSet<EC_Product_Attributes> EC_Product_Attributes { get; set; }
+		public virtual DbSet<EC_Product_Dtls> EC_Product_Dtls { get; set; }
+		public virtual DbSet<EC_Product_Variant> EC_Product_Variant { get; set; }
+		public virtual DbSet<EC_Unit> EC_Unit { get; set; }
+
+		#endregion
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
