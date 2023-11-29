@@ -163,7 +163,7 @@ namespace BaseStructure_47.Controllers
 						{
 							listMenuAccess = (from y in _context.Menus.AsNoTracking().ToList()
 											  where y.IsActive == true && y.IsDeleted == false
-											  select new UserMenuAccess() { Id = y.Id, ParentMenuId = y.ParentId, Area = y.Area, Controller = y.Controller, MenuName = y.Name, DisplayOrder = y.DisplayOrder, IsActive = y.IsActive, IsDeleted = y.IsDeleted }).ToList();
+											  select new UserMenuAccess() { Id = y.Id, ParentMenuId = y.ParentId, Area = y.Area, Controller = y.Controller, MenuName = y.Name, IsCreate = true, IsUpdate = true, IsRead = true, IsDelete = true, DisplayOrder = y.DisplayOrder, IsActive = y.IsActive, IsDeleted = y.IsDeleted }).ToList();
 						}
 						else if (role != null && role.IsAdmin)
 						{

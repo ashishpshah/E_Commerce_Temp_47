@@ -87,7 +87,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 					{
 						CommonViewModel.IsSuccess = false;
 						CommonViewModel.StatusCode = ResponseStatusCode.Error;
-						CommonViewModel.Message = "Branch already exist. Please try another Branch.";
+						CommonViewModel.Message = "Branch already exist. Please try another Branch name.";
 
 						return Json(CommonViewModel);
 					}

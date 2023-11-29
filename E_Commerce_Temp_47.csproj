@@ -141,6 +141,9 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Contact.cs" />
     <Compile Include="Areas\Admin\Models\E_Commerce.cs" />
+    <Compile Include="Areas\E_Commerce\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\E_Commerce\Controllers\ProductController.cs" />
+    <Compile Include="Areas\E_Commerce\E_CommerceAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -520,6 +523,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\E_Commerce\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\web.config" />
@@ -577,6 +581,12 @@
     <Content Include="Areas\Admin\Views\Contact\_Partial_AddEditForm.cshtml" />
     <Content Include="Areas\Admin\Views\About\_Partial_AddEditForm.cshtml" />
     <Content Include="Areas\Admin\Views\About\Index.cshtml" />
+    <Content Include="Areas\E_Commerce\Views\web.config" />
+    <Content Include="Areas\E_Commerce\Views\Category\Index.cshtml" />
+    <Content Include="Areas\E_Commerce\Views\Category\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\E_Commerce\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\E_Commerce\Views\Product\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\E_Commerce\Views\Product\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>

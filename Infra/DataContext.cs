@@ -31,13 +31,13 @@ namespace BaseStructure_47
 
 		#region E_Commerce
 
-		public virtual DbSet<EC_Category> EC_Category { get; set; }
-		public virtual DbSet<EC_Product> EC_Product { get; set; }
-		public virtual DbSet<EC_Product_Attribute_Value> EC_Product_Attribute_Value { get; set; }
-		public virtual DbSet<EC_Product_Attributes> EC_Product_Attributes { get; set; }
-		public virtual DbSet<EC_Product_Dtls> EC_Product_Dtls { get; set; }
-		public virtual DbSet<EC_Product_Variant> EC_Product_Variant { get; set; }
-		public virtual DbSet<EC_Unit> EC_Unit { get; set; }
+		public virtual DbSet<EC_Category> Category { get; set; }
+		public virtual DbSet<EC_Product> Product { get; set; }
+		public virtual DbSet<EC_Product_Attribute_Value> Product_Attribute_Value { get; set; }
+		public virtual DbSet<EC_Product_Attributes> Product_Attributes { get; set; }
+		public virtual DbSet<EC_Product_Dtls> Product_Dtls { get; set; }
+		public virtual DbSet<EC_Product_Variant> Product_Variant { get; set; }
+		public virtual DbSet<EC_Unit> Unit { get; set; }
 
 		#endregion
 

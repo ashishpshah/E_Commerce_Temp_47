@@ -1,4 +1,6 @@
-﻿namespace BaseStructure_47
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BaseStructure_47
 {
 	public class EC_Category : EntitiesBase
 	{
@@ -8,6 +10,7 @@
 		public long ParentId { get; set; }
 		public string Name { get; set; }
 		public string Desc { get; set; }
+		[NotMapped] public string ParentCategoryName { get; set; }
 	}
 
 	public class EC_Product : EntitiesBase
@@ -22,8 +25,9 @@
 		public string Secondary_Desc { get; set; }
 		public string Primary_Images { get; set; }
 		public string Secondary_Images { get; set; }
+		[NotMapped] public string CategoryName { get; set; }
 	}
-	
+
 	public class EC_Product_Dtls : EntitiesBase
 	{
 		public override long Id { get; set; }
@@ -46,7 +50,7 @@
 		public long AttributeId { get; set; }
 		public long AttributeValueId { get; set; }
 	}
-	
+
 
 	public class EC_Product_Attribute_Value : EntitiesBase
 	{
@@ -55,19 +59,19 @@
 		public string Value { get; set; }
 		public string Display_Value { get; set; }
 	}
-	
+
 
 	public class EC_Product_Attributes : EntitiesBase
 	{
 		public override long Id { get; set; }
 		public string Name { get; set; }
 	}
-	
+
 	public class EC_Unit : EntitiesBase
 	{
 		public override long Id { get; set; }
 		public string Name { get; set; }
 		public decimal Multiplier { get; set; }
 	}
-	
+
 }

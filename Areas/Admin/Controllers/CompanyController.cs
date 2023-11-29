@@ -66,7 +66,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 					{
 						CommonViewModel.IsSuccess = false;
 						CommonViewModel.StatusCode = ResponseStatusCode.Error;
-						CommonViewModel.Message = "Company already exist. Please try another Company.";
+						CommonViewModel.Message = "Company already exist. Please try another Company name.";
 
 						return Json(CommonViewModel);
 					}

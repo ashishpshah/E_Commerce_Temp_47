@@ -34,12 +34,10 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			CommonViewModel.Obj = new Menu();
 
 			if (Common.IsSuperAdmin() && Common.IsAdmin() && Id > 0)
-			{
 				CommonViewModel.Obj = _context.Menus.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
 
-				CommonViewModel.SelectListItems = _context.Menus.AsNoTracking().Where(x => x.IsActive == true && x.IsDeleted == false).ToList()
-					.Select(x => new SelectListItem_Custom(Convert.ToString(x.Id), Convert.ToString(x.Name))).ToList();
-			}
+			CommonViewModel.SelectListItems = _context.Menus.AsNoTracking().Where(x => x.IsActive == true && x.IsDeleted == false).ToList()
+				.Select(x => new SelectListItem_Custom(Convert.ToString(x.Id), Convert.ToString(x.Name))).ToList();
 
 			return PartialView("_Partial_AddEditForm", CommonViewModel);
 		}
