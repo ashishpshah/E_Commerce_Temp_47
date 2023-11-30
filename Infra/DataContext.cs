@@ -33,11 +33,11 @@ namespace BaseStructure_47
 
 		public virtual DbSet<EC_Category> Category { get; set; }
 		public virtual DbSet<EC_Product> Product { get; set; }
-		public virtual DbSet<EC_Product_Attribute_Value> Product_Attribute_Value { get; set; }
-		public virtual DbSet<EC_Product_Attributes> Product_Attributes { get; set; }
-		public virtual DbSet<EC_Product_Dtls> Product_Dtls { get; set; }
-		public virtual DbSet<EC_Product_Variant> Product_Variant { get; set; }
-		public virtual DbSet<EC_Unit> Unit { get; set; }
+		public virtual DbSet<EC_Product_Attribute_Value> AttributeValues { get; set; }
+		public virtual DbSet<EC_Product_Attributes> Attributes { get; set; }
+		public virtual DbSet<EC_Product_Dtls> ProductDtls { get; set; }
+		public virtual DbSet<EC_Product_Variant> Variants { get; set; }
+		public virtual DbSet<EC_Unit> Units { get; set; }
 
 		#endregion
 
@@ -76,7 +76,7 @@ namespace BaseStructure_47
 					((EntitiesBase)entity.Entity).IsActive = true;
 					((EntitiesBase)entity.Entity).IsDeleted = false;
 					((EntitiesBase)entity.Entity).CreatedDate = DateTime.Now;
-					((EntitiesBase)entity.Entity).CreatedBy = ((EntitiesBase)entity.Entity).CreatedBy == 0 ? user: ((EntitiesBase)entity.Entity).CreatedBy;
+					((EntitiesBase)entity.Entity).CreatedBy = ((EntitiesBase)entity.Entity).CreatedBy == 0 ? user : ((EntitiesBase)entity.Entity).CreatedBy;
 					((EntitiesBase)entity.Entity).LastModifiedDate = DateTime.Now;
 					((EntitiesBase)entity.Entity).LastModifiedBy = ((EntitiesBase)entity.Entity).CreatedBy == 0 ? user : ((EntitiesBase)entity.Entity).CreatedBy;
 				}

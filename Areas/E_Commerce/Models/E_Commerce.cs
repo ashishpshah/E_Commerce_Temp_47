@@ -45,6 +45,8 @@ namespace BaseStructure_47
 	public class EC_Product_Variant : EntitiesBase
 	{
 		public override long Id { get; set; }
+		public long CompanyId { get; set; }
+		public long BranchId { get; set; }
 		public long VariantId { get; set; }
 		public long ProductId { get; set; }
 		public long AttributeId { get; set; }
@@ -55,6 +57,8 @@ namespace BaseStructure_47
 	public class EC_Product_Attribute_Value : EntitiesBase
 	{
 		public override long Id { get; set; }
+		public long CompanyId { get; set; }
+		public long BranchId { get; set; }
 		public long AttributeId { get; set; }
 		public string Value { get; set; }
 		public string Display_Value { get; set; }
@@ -64,7 +68,10 @@ namespace BaseStructure_47
 	public class EC_Product_Attributes : EntitiesBase
 	{
 		public override long Id { get; set; }
+		public long CompanyId { get; set; }
+		public long BranchId { get; set; }
 		public string Name { get; set; }
+		[NotMapped] public string AttributeValue { get; set; }
 	}
 
 	public class EC_Unit : EntitiesBase

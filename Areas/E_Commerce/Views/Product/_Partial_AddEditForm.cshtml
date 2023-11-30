@@ -38,13 +38,52 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="Obj.IsActive" class="col-sm-2 col-form-label text-right">Status</label>
+                        <label for="IsActive" class="col-sm-2 col-form-label text-right">Status</label>
                         <div class="col-sm-4">
                             <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0">
                                 <input type="checkbox" class="custom-control-input"
                                        id="switch_Status" name="IsActive" @(Model.Obj == null || Model.Obj.IsActive == true || Model.Obj.Id == 0 ? "checked" : "")
                                        onchange="fnChange_Switch(this, 'label_Switch_Status')">
                                 <label class="custom-control-label" for="switch_Status" id="label_Switch_Status" data-true="Active" data-false="Inactive">@((Model.Obj != null && Model.Obj.IsActive == true) || Model.Obj == null || Model.Obj.Id == 0 ? "Active":"Inactive")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="item form-group row">
+                        <div class="col-sm-6 row">
+                            <label class="col-sm-4 col-form-label text-right"> Upload Primary Image <br /><small>Only png, jpg and jpeg format file is allowed</small> </label>
+                            <div class="col-sm-6">
+                                <div class="input-group input-file-partial">
+                                    <input type="text" id="temp_filePrimary" name="temp_filePrimary"
+                                           class="form-control form-control-sm temp_filePrimary" placeholder='Choose a file...' accept="image/*" onchange="showPreview(this);" />
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-info btn-choose" type="button">Choose</button>
+                                        <button class="btn btn-sm btn-warning btn-reset" type="button">Reset</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
+                            <div class="col-sm-8">
+                                <img id="filePrimary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6 row">
+                            <label class="col-sm-4 col-form-label text-right"> Upload Secondary Image <br /><small>Only png, jpg and jpeg format file is allowed</small> </label>
+                            <div class="col-sm-6">
+                                <div class="input-group input-file-partial">
+                                    <input type="text" id="temp_fileSecondary" name="temp_fileSecondary"
+                                           class="form-control form-control-sm temp_fileSecondary" placeholder='Choose a file...' accept="image/*" onchange="showPreview(this);" />
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-info btn-choose" type="button">Choose</button>
+                                        <button class="btn btn-sm btn-warning btn-reset" type="button">Reset</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
+                            <div class="col-sm-8">
+                                <img id="fileSecondary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
                             </div>
                         </div>
                     </div>

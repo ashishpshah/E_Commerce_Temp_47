@@ -21,6 +21,13 @@ namespace BaseStructure_47.Areas.E_Commerce
 				new { controller = "Product", action = "Index", id = UrlParameter.Optional },
 				namespaces: new string[] { "BaseStructure_47.Areas.E_Commerce.Controllers" }
 			);
+
+			context.MapRoute(
+				"Attribute_default",
+				"Admin/Attribute/{action}/{id}",
+				new { controller = "Attribute", action = "Index", id = UrlParameter.Optional },
+				namespaces: new string[] { "BaseStructure_47.Areas.E_Commerce.Controllers" }
+			);
 		}
 	}
 }
