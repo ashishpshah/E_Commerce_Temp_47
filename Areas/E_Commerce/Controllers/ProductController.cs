@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using System.ComponentModel.Design;
 using System.Web.WebPages;
 using System.Security.Cryptography;
+using System.IO;
+using System.Net.Mail;
 
 namespace BaseStructure_47.Areas.E_Commerce.Controllers
 {
@@ -95,7 +97,47 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 
 			obj.listAttribute = listAttribute;
 
+			obj.listAttachment = new List<Attachment>();
+
+			var listAttachment = new List<Int64>();
+
+			if (!string.IsNullOrEmpty(obj.Primary_Images))
+				if (obj.Primary_Images.Contains("#"))
+					foreach (var attachemt_id in obj.Primary_Images.Split('#').ToList())
+						listAttachment.Add((!string.IsNullOrEmpty(attachemt_id.Trim()) ? Convert.ToInt32(attachemt_id.Trim()) : 0));
+				else
+					listAttachment.Add((!string.IsNullOrEmpty(obj.Primary_Images) ? Convert.ToInt32(obj.Primary_Images.Trim()) : 0));
+
+			if (listAttachment != null && listAttachment.Count() > 0)
+			{
+				var attachments = _context.Attachments.AsNoTracking().ToList().Where(x => listAttachment.Any(z => z == x.Id) && !string.IsNullOrEmpty(x.Path.Trim()))
+					.Select(x => new Attachment() { Id = 1, Path = x.Path + x.Extension, Name = x.Name }).ToList();
+
+				if (attachments != null && attachments.Count() > 0)
+					obj.listAttachment.AddRange(attachments);
+			}
+
+			listAttachment = new List<Int64>();
+
+			if (!string.IsNullOrEmpty(obj.Secondary_Images))
+				if (obj.Secondary_Images.Contains("#"))
+					foreach (var attachemt_id in obj.Secondary_Images.Split('#').ToList())
+						listAttachment.Add((!string.IsNullOrEmpty(attachemt_id.Trim()) ? Convert.ToInt32(attachemt_id.Trim()) : 0));
+				else
+					listAttachment.Add((!string.IsNullOrEmpty(obj.Secondary_Images) ? Convert.ToInt32(obj.Secondary_Images.Trim()) : 0));
+
+			if (listAttachment != null && listAttachment.Count() > 0)
+			{
+				var attachments = _context.Attachments.AsNoTracking().ToList().Where(x => listAttachment.Any(z => z == x.Id) && !string.IsNullOrEmpty(x.Path.Trim()))
+					.Select(x => new Attachment() { Id = 2, Path = x.Path + x.Extension, Name = x.Name }).ToList();
+
+				if (attachments != null && attachments.Count() > 0)
+					obj.listAttachment.AddRange(attachments);
+			}
+
+
 			CommonViewModel.Obj = obj;
+
 
 			return PartialView("~/Areas/E_Commerce/Views/Product/_Partial_AddEditForm.cshtml", CommonViewModel);
 		}
@@ -167,6 +209,8 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 						//if (viewModel != null && !(viewModel.DisplayOrder > 0))
 						//	viewModel.DisplayOrder = (_context.Companies.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;
 
+						var attachment = new Attachment();
+
 						if (obj != null && Common.IsAdmin())
 						{
 							obj.Name = viewModel.Name;
@@ -178,16 +222,177 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 							obj.CompanyId = viewModel.CompanyId;
 							obj.BranchId = viewModel.BranchId;
 
+							if (viewModel != null && viewModel.filePrimary != null && viewModel.filePrimary.ContentLength > 0 && viewModel.filePrimary.ContentType.ToLower().Contains("image"))
+							{
+								if (obj != null && !string.IsNullOrEmpty(obj.Primary_Images))
+								{
+									if (obj.Primary_Images.Contains("#"))
+										foreach (var attachemt_id in obj.Primary_Images.Split('#').ToList())
+										{
+											try
+											{
+												attachment = _context.Attachments.AsNoTracking().ToList().Where(x => x.Id == Convert.ToInt32(attachemt_id.Trim())).FirstOrDefault();
+
+												if (attachment != null)
+												{
+													_context.Entry(attachment).State = System.Data.Entity.EntityState.Deleted;
+													_context.SaveChanges();
+													_context.Entry(attachment).State = System.Data.Entity.EntityState.Detached;
+												}
+											}
+											catch { continue; }
+										}
+									else
+									{
+										try
+										{
+											attachment = _context.Attachments.AsNoTracking().ToList().Where(x => x.Id == Convert.ToInt32(obj.Primary_Images.Trim())).FirstOrDefault();
+
+											if (attachment != null)
+											{
+												_context.Entry(attachment).State = System.Data.Entity.EntityState.Deleted;
+												_context.SaveChanges();
+												_context.Entry(attachment).State = System.Data.Entity.EntityState.Detached;
+											}
+										}
+										catch { }
+									}
+								}
+
+								string _fileName = viewModel.Id.ToString() + "_Primary";
+								string _ext = Path.GetExtension(viewModel.filePrimary.FileName).ToLower();
+								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
+
+								viewModel.filePrimary.SaveAs(_path);
+
+								attachment = new Attachment()
+								{
+									Path = "~/Content/Data/Image_Product/" + _fileName,
+									Name = _fileName,
+									Extension = _ext,
+									Size = viewModel.filePrimary.ContentLength
+								};
+
+								_context.Attachments.Add(attachment);
+								_context.SaveChanges();
+								_context.Entry(attachment).Reload();
+
+								obj.Primary_Images = attachment.Id.ToString();
+							}
+
+							if (viewModel != null && viewModel.fileSecondary != null && viewModel.fileSecondary.ContentLength > 0 && viewModel.fileSecondary.ContentType.ToLower().Contains("image"))
+							{
+								if (obj != null && !string.IsNullOrEmpty(obj.Secondary_Images))
+								{
+									if (obj.Secondary_Images.Contains("#"))
+										foreach (var attachemt_id in obj.Secondary_Images.Split('#').ToList())
+										{
+											try
+											{
+												attachment = _context.Attachments.AsNoTracking().ToList().Where(x => x.Id == Convert.ToInt32(attachemt_id.Trim())).FirstOrDefault();
+
+												if (attachment != null)
+												{
+													_context.Entry(attachment).State = System.Data.Entity.EntityState.Deleted;
+													_context.SaveChanges();
+													_context.Entry(attachment).State = System.Data.Entity.EntityState.Detached;
+												}
+											}
+											catch { continue; }
+										}
+									else
+									{
+										try
+										{
+											attachment = _context.Attachments.AsNoTracking().ToList().Where(x => x.Id == Convert.ToInt32(obj.Secondary_Images.Trim())).FirstOrDefault();
+
+											if (attachment != null)
+											{
+												_context.Entry(attachment).State = System.Data.Entity.EntityState.Deleted;
+												_context.SaveChanges();
+												_context.Entry(attachment).State = System.Data.Entity.EntityState.Detached;
+											}
+										}
+										catch { }
+									}
+								}
+
+								string _fileName = viewModel.Id.ToString() + "_Secondary";
+								string _ext = Path.GetExtension(viewModel.fileSecondary.FileName).ToLower();
+								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
+
+								viewModel.fileSecondary.SaveAs(_path);
+
+								attachment = new Attachment()
+								{
+									Path = "~/Content/Data/Image_Product/" + _fileName,
+									Name = _fileName,
+									Extension = _ext,
+									Size = viewModel.fileSecondary.ContentLength
+								};
+
+								_context.Attachments.Add(attachment);
+								_context.SaveChanges();
+								_context.Entry(attachment).Reload();
+
+								obj.Secondary_Images = attachment.Id.ToString();
+							}
+
 							_context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
 							_context.SaveChanges();
 						}
 						else if (Common.IsAdmin())
 						{
+							if (viewModel != null && viewModel.filePrimary != null && viewModel.filePrimary.ContentLength > 0 && viewModel.filePrimary.ContentType.ToLower().Contains("image"))
+							{
+								string _fileName = viewModel.Id.ToString() + "_Primary";
+								string _ext = Path.GetExtension(viewModel.filePrimary.FileName).ToLower();
+								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
+
+								viewModel.filePrimary.SaveAs(_path);
+
+								attachment = new Attachment()
+								{
+									Path = "~/Content/Data/Image_Product/" + _fileName,
+									Name = _fileName,
+									Extension = _ext,
+									Size = viewModel.filePrimary.ContentLength
+								};
+
+								_context.Attachments.Add(attachment);
+								_context.SaveChanges();
+								_context.Entry(attachment).Reload();
+
+								viewModel.Primary_Images = attachment.Id.ToString();
+							}
+
+							if (viewModel != null && viewModel.fileSecondary != null && viewModel.fileSecondary.ContentLength > 0 && viewModel.fileSecondary.ContentType.ToLower().Contains("image"))
+							{
+								string _fileName = viewModel.Id.ToString() + "_Secondary";
+								string _ext = Path.GetExtension(viewModel.fileSecondary.FileName).ToLower();
+								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
+
+								viewModel.fileSecondary.SaveAs(_path);
+
+								attachment = new Attachment()
+								{
+									Path = "~/Content/Data/Image_Product/" + _fileName,
+									Name = _fileName,
+									Extension = _ext,
+									Size = viewModel.fileSecondary.ContentLength
+								};
+
+								_context.Attachments.Add(attachment);
+								_context.SaveChanges();
+								_context.Entry(attachment).Reload();
+
+								viewModel.Secondary_Images = attachment.Id.ToString();
+							}
+
 							_context.Product.Add(viewModel);
 							_context.SaveChanges();
 							_context.Entry(viewModel).Reload();
 						}
-
 
 						if (viewModel.listAttribute == null)
 							viewModel.listAttribute = new List<EC_Product_Attributes>();
@@ -327,6 +532,8 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 						return Json(CommonViewModel);
 					}
 					catch (Exception ex) { }
+
+
 
 					#endregion
 				}

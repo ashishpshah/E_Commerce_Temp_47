@@ -43,6 +43,7 @@ namespace BaseStructure_47
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<Attachment>().HasKey(e => new { e.Id }).ToTable("Attachments");
 			modelBuilder.Entity<Company>().HasKey(e => new { e.Id }).ToTable("Company");
 			modelBuilder.Entity<Branch>().HasKey(e => new { e.Id }).ToTable("Branch");
 			modelBuilder.Entity<Employee>().HasKey(e => new { e.Id }).ToTable("Employee");

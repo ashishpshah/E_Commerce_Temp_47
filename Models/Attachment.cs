@@ -5,16 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BaseStructure_47
 {
-    public partial class Attachment
+	public partial class Attachment : EntitiesBase
 	{
-		public long Id { get; set; }
+		public override long Id { get; set; }
 		public string Name { get; set; }
 		public string Extension { get; set; }
 		public long Size { get; set; }
-		public string TypeDocument { get; set; }
-		public string TypeContent { get; set; }
+		public string Type { get; set; }
 		public string Path { get; set; }
 		public string Remarks { get; set; }
+		[NotMapped] public string File_Base64Str { get; set; }
 
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 
 namespace BaseStructure_47
 {
@@ -31,6 +32,9 @@ namespace BaseStructure_47
 		[NotMapped] public string CategoryName { get; set; }
 		[NotMapped] public List<EC_Product_Attributes> listAttribute { get; set; }
 		[NotMapped] public List<EC_Product_Variant> listVariant { get; set; }
+		[NotMapped] public List<Attachment> listAttachment { get; set; }
+		[NotMapped] public HttpPostedFileBase filePrimary { get; set; }
+		[NotMapped] public HttpPostedFileBase fileSecondary { get; set; }
 	}
 
 	public class EC_Product_Dtls : EntitiesBase

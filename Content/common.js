@@ -293,7 +293,7 @@ function fnSubmitForm($id) {
         const array = $form.serializeArray();
 
         $.each($('#' + $id + ' select'), function (key, input) {
-            if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled'))
+            if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled') && !$(input).hasClass('temp'))
                 array.filter(function (obj) {
                     if (obj['name'] == $(input).attr('name')) {
                         obj['value'] = $('#' + $(input).attr('id') + ' option:selected').val()
@@ -302,7 +302,7 @@ function fnSubmitForm($id) {
         });
 
         $.each($('#' + $id + ' input[type="checkbox"]'), function (key, input) {
-            if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled') && !$(input).hasClass('temp_fileUpload'))
+            if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled') && !$(input).hasClass('temp'))
                 array.filter(function (obj) {
                     if (obj['name'] == $(input).attr('name')) {
                         obj['value'] = $(input).is(':checked')
@@ -311,7 +311,7 @@ function fnSubmitForm($id) {
         });
 
         $.each($('#' + $id + ' input[type="radio"]'), function (key, input) {
-            if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled') && !$(input).hasClass('temp_fileUpload'))
+            if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled') && !$(input).hasClass('temp'))
                 array.filter(function (obj) {
                     if (obj['name'] == $(input).attr('name')) {
                         obj['value'] = $('input[name="' + $(input).attr('name') + '"]:checked').val()
@@ -328,7 +328,7 @@ function fnSubmitForm($id) {
 
         if (typeof inputFiles != 'undefined' && inputFiles != null && inputFiles.length > 0)
             $.each(inputFiles, function (key, input) {
-                if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled') && !$(input).hasClass('temp_fileUpload')) {
+                if ((typeof input.value != 'undefined' && input.value != null && input.value.length > 0) && !input.hasAttribute('disabled') && !$(input).hasClass('temp') && !$(input).hasClass('temp_fileUpload')) {
                     var file = document.getElementById('' + input.getAttribute('id')).files[0];
                     if (typeof input.getAttribute('name') == 'undefined' || input.getAttribute('name') == null || input.getAttribute('name').length == 0) {
                         formData.append("files", file);

@@ -214,7 +214,13 @@
                                         </div>
                                         <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
                                         <div class="col-sm-8">
-                                            <img id="filePrimary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
+                                            @if (Model.Obj.listAttachment != null && Model.Obj.listAttachment.Where(x => x.Id == 1).Count() > 0)
+                                            {
+                                                var file = Model.Obj.listAttachment.Where(x => x.Id == 1).FirstOrDefault();
+                                                <img id="filePrimary_preview" class="img-responsive avatar-view" src="@(file.Path.Contains("~")?file.Path.Replace("~","").ToString():file.Path)" alt="@file.Name" title="@file.Name" height="220" width="220" />
+                                            }
+                                            else
+                                            { <img id="filePrimary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />}
                                         </div>
                                     </div>
                                     <div class="col-sm-6 row">
@@ -232,7 +238,13 @@
                                         </div>
                                         <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
                                         <div class="col-sm-8">
-                                            <img id="fileSecondary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
+                                            @if (Model.Obj.listAttachment != null && Model.Obj.listAttachment.Where(x => x.Id == 2).Count() > 0)
+                                            {
+                                                var file = Model.Obj.listAttachment.Where(x => x.Id == 2).FirstOrDefault();
+                                                <img id="filePrimary_preview" class="img-responsive avatar-view" src="@(file.Path.Contains("~")?file.Path.Replace("~","").ToString():file.Path)" alt="@file.Name" title="@file.Name" height="220" width="220" />
+                                            }
+                                            else
+                                            { <img id="filePrimary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />}
                                         </div>
                                     </div>
                                 </div>
