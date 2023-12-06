@@ -28,6 +28,14 @@ namespace BaseStructure_47.Areas.E_Commerce
 				new { controller = "Attribute", action = "Index", id = UrlParameter.Optional },
 				namespaces: new string[] { "BaseStructure_47.Areas.E_Commerce.Controllers" }
 			);
+
+			context.MapRoute(
+				"Unit_default",
+				"Admin/Unit/{action}/{id}",
+				new { controller = "Unit", action = "Index", id = UrlParameter.Optional },
+				namespaces: new string[] { "BaseStructure_47.Areas.E_Commerce.Controllers" }
+			);
+
 		}
 	}
 }

@@ -1,0 +1,25 @@
+﻿https://github.com/Shoonya-Dev/ShoonyaRestApiWrapper-dotnet/blob/master/NorenApiWrapper/NorenApiResponse.cs
+
+=========================================
+
+AWS RDS
+
+Data Source=database-1.cklvniyazsff.ap-south-1.rds.amazonaws.com,1433;Initial Catalog=ZIntraAutoSense;User ID=admin;Password=***********
+
+Modify DB instance: database-1
+Summary of modifications
+You are about to submit the following modifications. Only values that will change are displayed. Carefully verify your changes and click Modify DB Instance.
+
+database-1.cklvniyazsff.ap-south-1.rds.amazonaws.com,1433
+Attribute
+Current value
+New value
+Allocated storage	20 GiB	50 GiB
+Master password		elkBwvTQn27h1GP8AFlc
+Turn on Performance Insights	Yes	No
+
+https://www.sqlshack.com/configuring-rds-environment-in-aws-for-sql-server/
+
+https://medium.com/@dangaldeependra/configure-lambda-function-to-access-amazon-rds-in-vpc-16e2faef6ef5
+
+=========================================

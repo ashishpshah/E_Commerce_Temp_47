@@ -12,83 +12,237 @@
 
         <div class="card-body">
             <div class="row no-gutters">
-                <div class="col-12">
-                    <div class="form-group row">
-                        <label for="Name" class="col-sm-2 col-form-label text-right">Product Name</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control form-control-sm" id="Name" name="Name" value="@Model.Obj.Name"
-                                   data-required data-msg="The Product Name field is required." placeholder="Product" autocomplete="off">
-                        </div>
-                        <label for="CategoryId" class="col-sm-2 col-form-label text-right">Category</label>
-                        <div class="col-sm-4">
-                            <select id="CategoryId" name="CategoryId" class="form-control select2 w-100" data-required data-msg="The Category field is required.">
-                                <option value="0">-- Select --</option>
-                                @foreach (var item in Model.SelectListItems)
-                                {
-                                    if (item.Value == Model.Obj.CategoryId.ToString())
-                                    {
-                                        <option value="@item.Value" selected>@item.Text</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.Value">@item.Text</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="IsActive" class="col-sm-2 col-form-label text-right">Status</label>
-                        <div class="col-sm-4">
-                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0">
-                                <input type="checkbox" class="custom-control-input"
-                                       id="switch_Status" name="IsActive" @(Model.Obj == null || Model.Obj.IsActive == true || Model.Obj.Id == 0 ? "checked" : "")
-                                       onchange="fnChange_Switch(this, 'label_Switch_Status')">
-                                <label class="custom-control-label" for="switch_Status" id="label_Switch_Status" data-true="Active" data-false="Inactive">@((Model.Obj != null && Model.Obj.IsActive == true) || Model.Obj == null || Model.Obj.Id == 0 ? "Active":"Inactive")</label>
+                <ul class="nav nav-tabs col-12" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="product-tab" data-toggle="pill" href="#product" role="tab" aria-controls="product" aria-selected="true">Product Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="product-varient-tab" data-toggle="pill" href="#product-varient" role="tab" aria-controls="product-varient" aria-selected="false">Product Varient</a>
+                    </li>
+                </ul>
+                <div class="tab-content col-12">
+                    <br />
+                    <div class="tab-pane fade row no-gutters" id="product-varient" role="tabpanel" aria-labelledby="product-varient-tab">
+
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <button type="button" id="btnAddNewVarient" class="btn btn-primary btn-md pull-right mr-2 mb-3" onclick="fnAdd_Varient();">
+                                    <i class="fas fa-plus"></i> &nbsp; Add new Varient
+                                </button>
+                            </div>
+                            <div class="col-12">
+                                <table class="table table-striped" id="tblVarient">
+                                    <thead>
+                                        <tr hidden id="tr__X" class="temp">
+                                            <td>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-1 col-form-label text-right">Attribute</label>
+                                                    <div class="col-sm-6">
+                                                        <select multiple id="selectAttributeValue__X" class="form-control w-100" onchange="fnChange_Attribute(0)">
+                                                            @foreach (var item in Model.SelectListItems.Where(x => x.Group == "A"))
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        </select>
+                                                        <input type="text" class="form-control form-control-sm d-none" id="inputAttributeValue__X" name="listAttribute[_X].AttributeValue" autocomplete="off">
+                                                        <input type="text" class="form-control form-control-sm d-none" id="inputId__X" name="listAttribute[_X].Id" autocomplete="off">
+                                                        <input type="checkbox" class="d-none" id="chkIsDeleted__X" name="listAttribute[_X].IsDeleted">
+                                                    </div>
+                                                    <label for="SalePrice" class="col-sm-1 col-form-label text-right">Sale Price</label>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" name="listAttribute[_X].SalePrice" value="0" autocomplete="off">
+                                                    </div>
+                                                    @*<div class="col-sm-1">
+                                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0 bg-transparent">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                       id="switch_Status__X" name="listAttribute[_X].IsActive" checked
+                                                                       onchange="fnChange_Switch(this, 'label_Switch_Status__X')">
+                                                                <label class="custom-control-label" for="switch_Status__X" id="label_Switch_Status__X" data-true="Active" data-false="Inactive"> Active</label>
+                                                            </div>
+                                                        </div>*@
+                                                </div>
+                                            </td>
+                                            <td width="5%">
+                                                <div class="btn-group">
+                                                    <button type="button" id="btnDelete_Varient__X" onclick="fnDelete_Varient(this);" class="btn btn-outline-danger btn-sm btn-flat ml-2" data-toggle="tooltip" data-placement="top" title="">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Obj != null && Model.Obj.listAttribute != null)
+                                        {
+                                            for (int i = 0; i < Model.Obj.listAttribute.Count(); i++)
+                                            {
+                                                <tr id="tr_@(i)">
+                                                    <td class="p-0 m-0">
+                                                        <div class="form-group row p-0 m-0">
+                                                            <label class="col-sm-1 col-form-label text-right">Attribute</label>
+                                                            <div class="col-sm-6">
+                                                                @{
+                                                                    var selectedValue = string.IsNullOrEmpty(Model.Obj.listAttribute[i].AttributeValue) ? null : Model.Obj.listAttribute[i].AttributeValue.Split('#');
+                                                                }
+
+                                                                <select multiple id="selectAttributeValue_@(i)" class="form-control select2 w-100" onchange="fnChange_Attribute(@(i))">
+                                                                    <option value="">-- Select --</option>
+                                                                    @foreach (var item in Model.SelectListItems.Where(x => x.Group == "A"))
+                                                                    {
+                                                                        if (selectedValue != null && selectedValue.Any(x => x == @item.Value))
+                                                                        {
+                                                                            <option value="@item.Value" selected>@item.Text</option>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option value="@item.Value">@item.Text</option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                                <input type="text" class="form-control form-control-sm d-none" id="inputAttributeValue_@(i)" name="listAttribute[@(i)].AttributeValue" value="@Model.Obj.listAttribute[i].AttributeValue" autocomplete="off" data-required data-msg="Select one or more Attribute(s).">
+                                                                <input type="text" class="form-control form-control-sm d-none" id="inputId_@(i)" name="listAttribute[@(i)].Id" value="@Model.Obj.listAttribute[i].Id" autocomplete="off">
+                                                                <input type="checkbox" class="d-none" id="chkIsDeleted_@(i)" name="listAttribute[@(i)].IsDeleted">
+                                                            </div>
+                                                            <label for="SalePrice" class="col-sm-1 col-form-label text-right">Sale Price</label>
+                                                            <div class="col-sm-2">
+                                                                <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" name="listAttribute[@(i)].SalePrice" value="@Model.Obj.listAttribute[i].SalePrice" autocomplete="off">
+                                                            </div>
+                                                            @*<div class="col-sm-1">
+                                                                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0 bg-transparent">
+                                                                        <input type="checkbox" class="custom-control-input"
+                                                                               id="switch_Status_@(i)" name="listAttribute[@(i)].IsActive" @(Model.Obj == null || Model.Obj.IsActive == true || Model.Obj.Id == 0 ? "checked" : "")
+                                                                               onchange="fnChange_Switch(this, 'label_Switch_Status_@(i)')">
+                                                                        <label class="custom-control-label" for="switch_Status_@(i)" id="label_Switch_Status_@(i)" data-true="Active" data-false="Inactive"> @((Model.Obj != null && Model.Obj.IsActive == true) || Model.Obj == null || Model.Obj.Id == 0 ? "Active":"Inactive")</label>
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </td>
+                                                    <td width="5%">
+                                                        <div class="btn-group">
+                                                            <button type="button" onclick="fnDelete_Varient(this);" class="btn btn-outline-danger btn-sm btn-flat ml-2" data-toggle="tooltip" data-placement="top" title="">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
-                    <hr />
-                    <div class="item form-group row">
-                        <div class="col-sm-6 row">
-                            <label class="col-sm-4 col-form-label text-right"> Upload Primary Image <br /><small>Only png, jpg and jpeg format file is allowed</small> </label>
-                            <div class="col-sm-6">
-                                <div class="input-group input-file-partial">
-                                    <input type="text" id="temp_filePrimary" name="temp_filePrimary"
-                                           class="form-control form-control-sm temp_filePrimary" placeholder='Choose a file...' accept="image/*" onchange="showPreview(this);" />
 
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-sm btn-info btn-choose" type="button">Choose</button>
-                                        <button class="btn btn-sm btn-warning btn-reset" type="button">Reset</button>
-                                    </span>
+                    </div>
+
+                    <div class="tab-pane fade show active" id="product" role="tabpanel" aria-labelledby="product-tab">
+
+                        <div class="row no-gutters">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="Name" class="col-sm-2 col-form-label text-right">Product Name</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control form-control-sm" id="Name" name="Name" value="@Model.Obj.Name"
+                                               data-required data-msg="The Product Name field is required." placeholder="Product" autocomplete="off">
+                                    </div>
+                                    <label for="MRP" class="col-sm-2 col-form-label text-right">MRP</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" id="MRP" name="MRP" value="@Model.Obj.MRP"
+                                               data-required data-msg="The Product Name field is required." placeholder="Product" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="CategoryId" class="col-sm-2 col-form-label text-right">Category</label>
+                                    <div class="col-sm-4">
+                                        <select id="CategoryId" name="CategoryId" class="form-control select2 w-100" data-required data-msg="The Category field is required.">
+                                            <option value="0">-- Select --</option>
+                                            @foreach (var item in Model.SelectListItems.Where(x => x.Group == "C"))
+                                            {
+                                                if (item.Value == Model.Obj.CategoryId.ToString())
+                                                {
+                                                    <option value="@item.Value" selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="UnitId" class="col-sm-2 col-form-label text-right">Unit (UOM)</label>
+                                    <div class="col-sm-2">
+                                        <select id="UnitId" name="UnitId" class="form-control select2 w-100" data-required data-msg="The Unit field is required.">
+                                            <option value="0">-- Select --</option>
+                                            @foreach (var item in Model.SelectListItems.Where(x => x.Group == "U"))
+                                            {
+                                                if (item.Value == Model.Obj.UnitId.ToString())
+                                                {
+                                                    <option value="@item.Value" selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="IsActive" class="col-sm-2 col-form-label text-right">Status</label>
+                                    <div class="col-sm-4">
+                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   id="switch_Status" name="IsActive" @(Model.Obj == null || Model.Obj.IsActive == true || Model.Obj.Id == 0 ? "checked" : "")
+                                                   onchange="fnChange_Switch(this, 'label_Switch_Status')">
+                                            <label class="custom-control-label" for="switch_Status" id="label_Switch_Status" data-true="Active" data-false="Inactive">@((Model.Obj != null && Model.Obj.IsActive == true) || Model.Obj == null || Model.Obj.Id == 0 ? "Active":"Inactive")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="item form-group row">
+                                    <div class="col-sm-6 row">
+                                        <label class="col-sm-4 col-form-label text-right"> Upload Primary Image <br /><small>Only png, jpg and jpeg format file is allowed</small> </label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group input-file-partial">
+                                                <input type="text" id="temp_filePrimary" name="temp_filePrimary"
+                                                       class="form-control form-control-sm temp_filePrimary" placeholder='Choose a file...' accept="image/*" onchange="showPreview(this);" />
+
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-sm btn-info btn-choose" type="button">Choose</button>
+                                                    <button class="btn btn-sm btn-warning btn-reset" type="button">Reset</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
+                                        <div class="col-sm-8">
+                                            <img id="filePrimary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 row">
+                                        <label class="col-sm-4 col-form-label text-right"> Upload Secondary Image <br /><small>Only png, jpg and jpeg format file is allowed</small> </label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group input-file-partial">
+                                                <input type="text" id="temp_fileSecondary" name="temp_fileSecondary"
+                                                       class="form-control form-control-sm temp_fileSecondary" placeholder='Choose a file...' accept="image/*" onchange="showPreview(this);" />
+
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-sm btn-info btn-choose" type="button">Choose</button>
+                                                    <button class="btn btn-sm btn-warning btn-reset" type="button">Reset</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
+                                        <div class="col-sm-8">
+                                            <img id="fileSecondary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
-                            <div class="col-sm-8">
-                                <img id="filePrimary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
-                            </div>
                         </div>
-                        <div class="col-sm-6 row">
-                            <label class="col-sm-4 col-form-label text-right"> Upload Secondary Image <br /><small>Only png, jpg and jpeg format file is allowed</small> </label>
-                            <div class="col-sm-6">
-                                <div class="input-group input-file-partial">
-                                    <input type="text" id="temp_fileSecondary" name="temp_fileSecondary"
-                                           class="form-control form-control-sm temp_fileSecondary" placeholder='Choose a file...' accept="image/*" onchange="showPreview(this);" />
 
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-sm btn-info btn-choose" type="button">Choose</button>
-                                        <button class="btn btn-sm btn-warning btn-reset" type="button">Reset</button>
-                                    </span>
-                                </div>
-                            </div>
-                            <label class="col-sm-4 col-form-label text-right">&nbsp; </label>
-                            <div class="col-sm-8">
-                                <img id="fileSecondary_preview" class="img-responsive avatar-view" src="~/Content/no_image_available.png" alt="Avatar" title="Change the avatar" height="220" width="220" />
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div class="card-footer">

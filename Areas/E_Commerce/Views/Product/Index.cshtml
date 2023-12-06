@@ -47,7 +47,7 @@
                             <div class="col-md-12 my-1">
                                 <table id="table_Common_SrNo" class="table table-bordered table-striped divformSave_Hide">
                                     <thead>
-                                        <tr><th class="no_sorting">#</th><th>Product</th><th>Category</th><th width="5%">Status</th><th>Action</th></tr>
+                                        <tr><th class="no_sorting">#</th><th>Product</th><th>Category</th><th width="5%">MRP</th><th width="5%">Varient</th><th width="5%">Status</th><th>Action</th></tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model.ObjList.OrderBy(x => x.Id))
@@ -56,6 +56,8 @@
                                                 <td></td>
                                                 <td>@item.Name</td>
                                                 <td>@item.CategoryName</td>
+                                                <td>@item.MRP</td>
+                                                <td>@item.CategoryId</td>
                                                 <td class="text-center"><span class="badge bg-@(item.IsActive == true ? "success" : "danger")">@(item.IsActive == true ? "Active" : "Inactive")</span></td>
                                                 <td>
                                                     <div class="btn-group">
@@ -112,7 +114,7 @@
                     else {
                         var reader = new FileReader();
                         reader.onload = function (e) {
-                            $("#" + $($this).attr('name') +"_preview").attr("src", e.target.result);
+                            $("#" + $($this).attr('name') + "_preview").attr("src", e.target.result);
                             uploadImage();
                         }
                         reader.readAsDataURL($($this)[0].files[0]);
@@ -123,6 +125,67 @@
             }
         }
 
+        function fnAdd_Varient() {
+
+            debugger;
+
+            var lastAttribute = $('#tblVarient tbody tr:last select').val();
+
+            var count = $('#tblVarient tbody tr').length;
+
+            if (count == 0 || (typeof lastAttribute != 'undefined' && lastAttribute != null && lastAttribute != '' && lastAttribute.length > 0)) {
+
+                var strHtml = $('#tblVarient thead tr.temp').html();
+
+                strHtml = strHtml.replaceAll('_X', count);
+                strHtml = strHtml.replaceAll('fnChange_Attribute(0)', 'fnChange_Attribute(' + count + ')');
+
+                $('#tblVarient tbody').append('<tr>' + strHtml + '</tr>');
+
+                $('#tblVarient tbody tr:last').removeAttr('hidden');
+                $('#tblVarient tbody tr:last').removeClass('temp');
+                $('#tblVarient tbody tr select').addClass('select2');
+                $('#tblVarient tbody tr select.select2').select2();
+
+                $('#tblVarient tbody tr input#inputId_' + count).val(count);
+                $('#tblVarient tbody tr input#inputId_' + count).trigger('change');
+
+                $('#tblVarient tbody tr input#inputAttributeValue_' + count).attr('data-required');
+                $('#tblVarient tbody tr input#inputAttributeValue_' + count).attr('data-msg');
+                $('#tblVarient tbody tr input#inputAttributeValue_' + count).attr('data-msg', 'Select one or more Attribute(s).');
+
+            }
+
+        }
+
+        function fnChange_Attribute($SrNo) {
+            debugger;
+
+            var selectedValue = $('#selectAttributeValue_' + $SrNo).val();
+
+            if (typeof selectedValue != 'undefined' && selectedValue != null && selectedValue != '' && selectedValue.length > 0)
+                $('#inputAttributeValue_' + $SrNo).val(selectedValue.join('#'));
+            else
+                $('#inputAttributeValue_' + $SrNo).val('');
+
+            $('#inputId_' + $SrNo).val($SrNo);
+            $('#inputId_' + $SrNo).trigger('change');
+            $('#inputAttributeValue_' + $SrNo).trigger('change');
+
+        }
+
+        function fnDelete_Varient($this) {
+            debugger;
+            $($this).parents("tr").addClass('d-none');
+            $($this).parents("tr").find('input[type="checkbox"]').prop('checked', true);
+            $($this).parents("tr").find('input[type="checkbox"]').trigger('change');
+        }
+
+        function fnSubmitForm_Success(response, $id) {
+            debugger;
+
+            fnLoadParialView('divformSave', '@Url.Action("Partial_AddEditForm","Product", new {  area = "Admin" })?Id=' + response.Data1);
+        }
     </script>
 }
 
