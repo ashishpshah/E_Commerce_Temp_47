@@ -10,42 +10,50 @@ using System.Web.Mvc;
 namespace BaseStructure_47.Areas.E_Commerce.Controllers
 {
 	[RouteArea("Admin")]
-	public class CategoryController : BaseController<ResponseModel<EC_Category>>
+	public class TagsController : BaseController<ResponseModel<EC_Tags>>
 	{
 		public ActionResult Index()
 		{
-			List<EC_Category> list = GetList();
-
-			if (list != null)
-				foreach (EC_Category obj in list)
-					obj.ParentCategoryName = list.Where(x => x.Id == obj.ParentId).Select(x => x.Name).FirstOrDefault();
+			List<EC_Tags> list = GetList();
 
 			CommonViewModel.ObjList = list;
 
-			return View("~/Areas/E_Commerce/Views/Category/Index.cshtml", CommonViewModel);
+			return View("~/Areas/E_Commerce/Views/Tags/Index.cshtml", CommonViewModel);
 		}
 
 		//[CustomAuthorizeAttribute(AccessType_Enum.Read)]
 		public ActionResult Partial_AddEditForm(long Id = 0)
 		{
-			var obj = new EC_Category();
+			var obj = new EC_Tags();
 
-			List<EC_Category> list = GetList();
+			List<EC_Tags> list = GetList();
 
 			if (Id > 0)
 				obj = list.Where(x => x.Id == Id).FirstOrDefault();
 
-			CommonViewModel.SelectListItems = list.Where(x => x.Id != Id && x.IsActive == true && x.IsDeleted == false)
-				.Select(x => new SelectListItem_Custom(Convert.ToString(x.Id), Convert.ToString(x.Name))).ToList();
+			var listCategory = GetCategoryList().Where(x => x.IsActive == true && x.IsDeleted == false)
+				.Select(x => new SelectListItem_Custom(Convert.ToString(x.Id), Convert.ToString(x.Name), "C")).ToList();
+
+			var listProduct = GetProductList().Where(x => x.IsActive == true && x.IsDeleted == false)
+				.Select(x => new SelectListItem_Custom(Convert.ToString(x.Id), Convert.ToString(x.Name), "P")).ToList();
+
+			CommonViewModel.SelectListItems = new List<SelectListItem_Custom>();
+
+			if (listCategory != null && listCategory.Count > 0)
+				CommonViewModel.SelectListItems.AddRange(listCategory);
+
+			if (listProduct != null && listProduct.Count > 0)
+				CommonViewModel.SelectListItems.AddRange(listProduct);
 
 			CommonViewModel.Obj = obj;
 
-			return PartialView("~/Areas/E_Commerce/Views/Category/_Partial_AddEditForm.cshtml", CommonViewModel);
+
+			return PartialView("~/Areas/E_Commerce/Views/Tags/_Partial_AddEditForm.cshtml", CommonViewModel);
 		}
 
 		[HttpPost]
 		//[CustomAuthorizeAttribute(AccessType_Enum.Write)]
-		public ActionResult Save(EC_Category viewModel)
+		public ActionResult Save(EC_Tags viewModel)
 		{
 			try
 			{
@@ -66,19 +74,19 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 					{
 						CommonViewModel.IsSuccess = false;
 						CommonViewModel.StatusCode = ResponseStatusCode.Error;
-						CommonViewModel.Message = "Please enter Category name.";
+						CommonViewModel.Message = "Please enter Tags name.";
 
 						return Json(CommonViewModel);
 					}
 
-					if (_context.Category.AsNoTracking().ToList().Any(x => x.Name.ToLower().Replace(" ", "") == viewModel.Name.ToLower().Replace(" ", "")
-									&& x.ParentId != viewModel.ParentId && x.Id != viewModel.Id
+					if (_context.Tags.AsNoTracking().ToList().Any(x => x.Name.ToLower().Replace(" ", "") == viewModel.Name.ToLower().Replace(" ", "")
+									&& x.Id != viewModel.Id
 									&& x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)
 									&& x.BranchId == Common.Get_Session_Int(SessionKey.BRANCH_ID)))
 					{
 						CommonViewModel.IsSuccess = false;
 						CommonViewModel.StatusCode = ResponseStatusCode.Error;
-						CommonViewModel.Message = "Category already exist. Please try another Category name.";
+						CommonViewModel.Message = "Tag name already exist. Please try another Tag name.";
 
 						return Json(CommonViewModel);
 					}
@@ -93,9 +101,9 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 						viewModel.CompanyId = Common.Get_Session_Int(SessionKey.COMPANY_ID);
 						viewModel.BranchId = Common.Get_Session_Int(SessionKey.BRANCH_ID);
 
-						EC_Category obj = new EC_Category();
+						EC_Tags obj = new EC_Tags();
 
-						obj = _context.Category.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id
+						obj = _context.Tags.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id
 									&& x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)
 									&& x.BranchId == Common.Get_Session_Int(SessionKey.BRANCH_ID)).FirstOrDefault();
 
@@ -105,7 +113,9 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 						if (obj != null && Common.IsAdmin())
 						{
 							obj.Name = viewModel.Name;
-							obj.ParentId = viewModel.ParentId;
+							obj.Desc = viewModel.Desc;
+							obj.Products = viewModel.Products;
+							obj.Categories = viewModel.Categories;
 							obj.IsActive = viewModel.IsActive;
 
 							obj.CompanyId = viewModel.CompanyId;
@@ -114,7 +124,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 							_context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
 						}
 						else if (Common.IsAdmin())
-							_context.Category.Add(viewModel);
+							_context.Tags.Add(viewModel);
 
 						_context.SaveChanges();
 
@@ -122,7 +132,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 						CommonViewModel.IsSuccess = true;
 						CommonViewModel.StatusCode = ResponseStatusCode.Success;
 						CommonViewModel.Message = ResponseStatusMessage.Success;
-						CommonViewModel.RedirectURL = Url.Action("Index", "Category", new { area = "Admin" });
+						CommonViewModel.RedirectURL = Url.Action("Index", "Tags", new { area = "Admin" });
 
 						return Json(CommonViewModel);
 					}
@@ -147,9 +157,9 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 		{
 			try
 			{
-				if (_context.Category.AsNoTracking().Any(x => x.Id == Id && x.ParentId != Id))
+				if (_context.Tags.AsNoTracking().Any(x => x.Id == Id))
 				{
-					var obj = _context.Category.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+					var obj = _context.Tags.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
 
 					_context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
 					_context.SaveChanges();
@@ -159,7 +169,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 					CommonViewModel.StatusCode = ResponseStatusCode.Success;
 					CommonViewModel.Message = ResponseStatusMessage.Delete;
 
-					CommonViewModel.RedirectURL = Url.Action("Index", "Category", new { area = "Admin" });
+					CommonViewModel.RedirectURL = Url.Action("Index", "Tags", new { area = "Admin" });
 
 					return Json(CommonViewModel);
 				}
@@ -174,12 +184,52 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 		}
 
 
-		private List<EC_Category> GetList()
+		private List<EC_Tags> GetList()
 		{
-			List<EC_Category> list = _context.Category.AsNoTracking().ToList()
+			List<EC_Tags> list = _context.Tags.AsNoTracking().ToList()
 									.Where(x => x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)
 										&& x.BranchId == Common.Get_Session_Int(SessionKey.BRANCH_ID)).ToList();
 			return list;
+		}
+
+
+		private List<EC_Product> GetProductList()
+		{
+			List<EC_Product> list = _context.Product.AsNoTracking().ToList().Where(x => x.IsActive == true)
+									.Where(x => x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)
+										&& x.BranchId == Common.Get_Session_Int(SessionKey.BRANCH_ID)).ToList();
+
+			List<EC_Category> listCategory = GetCategoryList();
+
+			foreach (var item in list.OrderBy(x => x.Id).ToList())
+			{
+				if (item.CategoryId > 0)
+					item.CategoryName = listCategory.Where(x => x.Id == item.CategoryId).Select(x => x.Name).FirstOrDefault();
+
+				if (item.CategoryId > 0)
+					item.Name = item.Name + " ( " + item.CategoryName.Trim() + " ) ";
+			}
+
+			return list;
+		}
+
+
+		private List<EC_Category> GetCategoryList()
+		{
+			List<EC_Category> list = _context.Category.AsNoTracking().ToList().Where(x => x.IsActive == true)
+									.Where(x => x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)
+										&& x.BranchId == Common.Get_Session_Int(SessionKey.BRANCH_ID)).ToList();
+
+			foreach (var item in list.OrderBy(x => x.Id).ThenBy(x => x.ParentId).ToList())
+			{
+				if (item.ParentId > 0)
+					item.ParentCategoryName = list.Where(x => x.Id == item.ParentId).Select(x => x.Name).FirstOrDefault();
+
+				if (item.ParentId > 0)
+					item.Name = item.ParentCategoryName.Trim() + " > " + item.Name;
+			}
+
+			return list.Where(x => x.IsActive == true).ToList();
 		}
 
 	}

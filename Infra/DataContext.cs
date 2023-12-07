@@ -31,6 +31,7 @@ namespace BaseStructure_47
 
 		#region E_Commerce
 
+		public virtual DbSet<EC_Tags> Tags { get; set; }
 		public virtual DbSet<EC_Category> Category { get; set; }
 		public virtual DbSet<EC_Product> Product { get; set; }
 		public virtual DbSet<EC_Product_Attribute_Value> AttributeValues { get; set; }

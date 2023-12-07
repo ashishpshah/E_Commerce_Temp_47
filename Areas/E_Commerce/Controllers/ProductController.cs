@@ -91,7 +91,10 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 
 				if (listAttribute != null && listAttribute.Count > 0)
 					foreach (var item in listAttribute)
+					{
+						item.BasePrice = listProduct_Dtls.Where(x => x.VariantId == item.Id).Select(x => x.BasePrice).FirstOrDefault();
 						item.SalePrice = listProduct_Dtls.Where(x => x.VariantId == item.Id).Select(x => x.SalePrice).FirstOrDefault();
+					}
 
 			}
 
@@ -216,7 +219,8 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 							obj.Name = viewModel.Name;
 							obj.CategoryId = viewModel.CategoryId;
 							obj.UnitId = viewModel.UnitId;
-							obj.MRP = viewModel.MRP;
+							obj.BasePrice = viewModel.BasePrice;
+							obj.SalePrice = viewModel.SalePrice;
 							obj.IsActive = viewModel.IsActive;
 
 							obj.CompanyId = viewModel.CompanyId;
@@ -262,6 +266,9 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 								string _fileName = viewModel.Id.ToString() + "_Primary";
 								string _ext = Path.GetExtension(viewModel.filePrimary.FileName).ToLower();
 								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
+
+								if (System.IO.File.Exists(_path))
+									System.IO.File.Delete(_path);
 
 								viewModel.filePrimary.SaveAs(_path);
 
@@ -321,6 +328,9 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 								string _ext = Path.GetExtension(viewModel.fileSecondary.FileName).ToLower();
 								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
 
+								if (System.IO.File.Exists(_path))
+									System.IO.File.Delete(_path);
+
 								viewModel.fileSecondary.SaveAs(_path);
 
 								attachment = new Attachment()
@@ -349,6 +359,9 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 								string _ext = Path.GetExtension(viewModel.filePrimary.FileName).ToLower();
 								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
 
+								if (System.IO.File.Exists(_path))
+									System.IO.File.Delete(_path);
+
 								viewModel.filePrimary.SaveAs(_path);
 
 								attachment = new Attachment()
@@ -371,6 +384,9 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 								string _fileName = viewModel.Id.ToString() + "_Secondary";
 								string _ext = Path.GetExtension(viewModel.fileSecondary.FileName).ToLower();
 								string _path = Path.Combine(Server.MapPath("~/Content/Data/Image_Product/"), _fileName + _ext);
+
+								if (System.IO.File.Exists(_path))
+									System.IO.File.Delete(_path);
 
 								viewModel.fileSecondary.SaveAs(_path);
 
@@ -400,7 +416,8 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 						viewModel.listAttribute.Add(new EC_Product_Attributes()
 						{
 							AttributeValue = "0|0",
-							SalePrice = viewModel.MRP
+							BasePrice = viewModel.BasePrice,
+							SalePrice = viewModel.SalePrice
 						});
 
 						if (viewModel.listVariant == null)
@@ -420,6 +437,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 										ProductId = viewModel.Id,
 										AttributeId = attr.Contains("|") ? Convert.ToInt32(attr.Split('|')[0]) : 0,
 										AttributeValueId = attr.Contains("|") ? Convert.ToInt32(attr.Split('|')[1]) : 0,
+										BasePrice = item.BasePrice,
 										SalePrice = item.SalePrice,
 										CompanyId = Common.Get_Session_Int(SessionKey.COMPANY_ID),
 										BranchId = Common.Get_Session_Int(SessionKey.BRANCH_ID),
@@ -434,6 +452,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 									ProductId = viewModel.Id,
 									AttributeId = item.AttributeValue.Contains("|") ? Convert.ToInt32(item.AttributeValue.Split('|')[0]) : 0,
 									AttributeValueId = item.AttributeValue.Contains("|") ? Convert.ToInt32(item.AttributeValue.Split('|')[1]) : 0,
+									BasePrice = item.BasePrice,
 									SalePrice = item.SalePrice,
 									CompanyId = Common.Get_Session_Int(SessionKey.COMPANY_ID),
 									BranchId = Common.Get_Session_Int(SessionKey.BRANCH_ID)
@@ -493,7 +512,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 								catch { continue; }
 							}
 
-						foreach (var variant in viewModel.listVariant.Where(x => x.VariantId > 0).GroupBy(x => new { Id = x.VariantId, SalePrice = x.SalePrice }).ToList())
+						foreach (var variant in viewModel.listVariant.Where(x => x.VariantId > 0).GroupBy(x => new { Id = x.VariantId, BasePrice = x.BasePrice, SalePrice = x.SalePrice }).ToList())
 						{
 							try
 							{
@@ -501,7 +520,8 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 								{
 									var old = listProduct_Dtls.Where(x => x.VariantId == variant.Key.Id).FirstOrDefault();
 
-									old.SalePrice = variant.Key.SalePrice == 0 ? viewModel.MRP : variant.Key.SalePrice;
+									old.BasePrice = variant.Key.BasePrice;
+									old.SalePrice = variant.Key.SalePrice;
 
 									_context.Entry(old).State = System.Data.Entity.EntityState.Modified;
 									_context.SaveChanges();
@@ -511,11 +531,11 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 									var p_dtls = new EC_Product_Dtls();
 
 									p_dtls.ProductId = viewModel.Id;
-									p_dtls.SalePrice = variant.Key.SalePrice == 0 ? viewModel.MRP : variant.Key.SalePrice;
+									p_dtls.BasePrice = variant.Key.BasePrice;
+									p_dtls.SalePrice = variant.Key.SalePrice;
 									p_dtls.VariantId = variant.Key.Id;
 
 									_context.ProductDtls.Add(p_dtls);
-
 									_context.SaveChanges();
 								}
 							}
@@ -594,6 +614,16 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 			List<EC_Category> list = _context.Category.AsNoTracking().ToList()
 									.Where(x => x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)
 										&& x.BranchId == Common.Get_Session_Int(SessionKey.BRANCH_ID)).ToList();
+
+			foreach (var item in list.OrderBy(x => x.Id).ThenBy(x => x.ParentId).ToList())
+			{
+				if (item.ParentId > 0)
+					item.ParentCategoryName = list.Where(x => x.Id == item.ParentId).Select(x => x.Name).FirstOrDefault();
+
+				if (item.ParentId > 0)
+					item.Name = item.ParentCategoryName.Trim() + " > " + item.Name;
+			}
+
 			return list;
 		}
 

@@ -140,6 +140,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\Contact.cs" />
+    <Compile Include="Areas\E_Commerce\Controllers\TagsController.cs" />
     <Compile Include="Areas\E_Commerce\Controllers\UnitController.cs" />
     <Compile Include="Areas\E_Commerce\Models\E_Commerce.cs" />
     <Compile Include="Areas\E_Commerce\Controllers\CategoryController.cs" />
@@ -594,6 +595,8 @@
     <Content Include="Areas\E_Commerce\Views\Attribute\_Partial_AddEditForm.cshtml" />
     <Content Include="Areas\E_Commerce\Views\Unit\_Partial_AddEditForm.cshtml" />
     <Content Include="Areas\E_Commerce\Views\Unit\Index.cshtml" />
+    <Content Include="Areas\E_Commerce\Views\Tags\_Partial_AddEditForm.cshtml" />
+    <Content Include="Areas\E_Commerce\Views\Tags\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>

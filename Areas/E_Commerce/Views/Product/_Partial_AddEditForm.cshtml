@@ -37,7 +37,7 @@
                                             <td>
                                                 <div class="form-group row">
                                                     <label class="col-sm-1 col-form-label text-right">Attribute</label>
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-4">
                                                         <select multiple id="selectAttributeValue__X" class="form-control w-100" onchange="fnChange_Attribute(0)">
                                                             @foreach (var item in Model.SelectListItems.Where(x => x.Group == "A"))
                                                             {
@@ -47,6 +47,10 @@
                                                         <input type="text" class="form-control form-control-sm d-none" id="inputAttributeValue__X" name="listAttribute[_X].AttributeValue" autocomplete="off">
                                                         <input type="text" class="form-control form-control-sm d-none" id="inputId__X" name="listAttribute[_X].Id" autocomplete="off">
                                                         <input type="checkbox" class="d-none" id="chkIsDeleted__X" name="listAttribute[_X].IsDeleted">
+                                                    </div>
+                                                    <label for="BasePrice" class="col-sm-1 col-form-label text-right">Base Price</label>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" name="listAttribute[_X].BasePrice" value="0" autocomplete="off">
                                                     </div>
                                                     <label for="SalePrice" class="col-sm-1 col-form-label text-right">Sale Price</label>
                                                     <div class="col-sm-2">
@@ -80,7 +84,7 @@
                                                     <td class="p-0 m-0">
                                                         <div class="form-group row p-0 m-0">
                                                             <label class="col-sm-1 col-form-label text-right">Attribute</label>
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-4">
                                                                 @{
                                                                     var selectedValue = string.IsNullOrEmpty(Model.Obj.listAttribute[i].AttributeValue) ? null : Model.Obj.listAttribute[i].AttributeValue.Split('#');
                                                                 }
@@ -89,7 +93,7 @@
                                                                     <option value="">-- Select --</option>
                                                                     @foreach (var item in Model.SelectListItems.Where(x => x.Group == "A"))
                                                                     {
-                                                                        if (selectedValue != null && selectedValue.Any(x => x == @item.Value))
+                                                                        if (selectedValue != null && selectedValue.Any(x => x == item.Value))
                                                                         {
                                                                             <option value="@item.Value" selected>@item.Text</option>
                                                                         }
@@ -102,6 +106,10 @@
                                                                 <input type="text" class="form-control form-control-sm d-none" id="inputAttributeValue_@(i)" name="listAttribute[@(i)].AttributeValue" value="@Model.Obj.listAttribute[i].AttributeValue" autocomplete="off" data-required data-msg="Select one or more Attribute(s).">
                                                                 <input type="text" class="form-control form-control-sm d-none" id="inputId_@(i)" name="listAttribute[@(i)].Id" value="@Model.Obj.listAttribute[i].Id" autocomplete="off">
                                                                 <input type="checkbox" class="d-none" id="chkIsDeleted_@(i)" name="listAttribute[@(i)].IsDeleted">
+                                                            </div>
+                                                            <label for="BasePrice" class="col-sm-1 col-form-label text-right">Base Price</label>
+                                                            <div class="col-sm-2">
+                                                                <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" name="listAttribute[@(i)].BasePrice" value="@Model.Obj.listAttribute[i].BasePrice" autocomplete="off">
                                                             </div>
                                                             <label for="SalePrice" class="col-sm-1 col-form-label text-right">Sale Price</label>
                                                             <div class="col-sm-2">
@@ -144,10 +152,15 @@
                                         <input type="text" class="form-control form-control-sm" id="Name" name="Name" value="@Model.Obj.Name"
                                                data-required data-msg="The Product Name field is required." placeholder="Product" autocomplete="off">
                                     </div>
-                                    <label for="MRP" class="col-sm-2 col-form-label text-right">MRP</label>
+                                    <label for="BasePrice" class="col-sm-1 col-form-label text-right">Base Price</label>
                                     <div class="col-sm-2">
-                                        <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" id="MRP" name="MRP" value="@Model.Obj.MRP"
-                                               data-required data-msg="The Product Name field is required." placeholder="Product" autocomplete="off">
+                                        <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" id="BasePrice" name="BasePrice" value="@Model.Obj.BasePrice"
+                                               data-required data-msg="The Base Price field is required." placeholder="Product" autocomplete="off">
+                                    </div>
+                                    <label for="SalePrice" class="col-sm-1 col-form-label text-right">Sale Price</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control form-control-sm isNumberKey_Decimal text-right" id="SalePrice" name="SalePrice" value="@Model.Obj.SalePrice"
+                                               data-required data-msg="The Sale Price field is required." placeholder="Product" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="form-group row">

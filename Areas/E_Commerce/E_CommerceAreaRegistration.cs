@@ -35,6 +35,13 @@ namespace BaseStructure_47.Areas.E_Commerce
 				new { controller = "Unit", action = "Index", id = UrlParameter.Optional },
 				namespaces: new string[] { "BaseStructure_47.Areas.E_Commerce.Controllers" }
 			);
+			
+			context.MapRoute(
+				"Tags_default",
+				"Admin/Tags/{action}/{id}",
+				new { controller = "Tags", action = "Index", id = UrlParameter.Optional },
+				namespaces: new string[] { "BaseStructure_47.Areas.E_Commerce.Controllers" }
+			);
 
 		}
 	}

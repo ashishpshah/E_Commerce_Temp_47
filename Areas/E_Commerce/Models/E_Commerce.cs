@@ -15,6 +15,17 @@ namespace BaseStructure_47
 		[NotMapped] public string ParentCategoryName { get; set; }
 	}
 
+	public class EC_Tags : EntitiesBase
+	{
+		public override long Id { get; set; }
+		public long CompanyId { get; set; }
+		public long BranchId { get; set; }
+		public string Name { get; set; }
+		public string Desc { get; set; }
+		public string Products { get; set; }
+		public string Categories { get; set; }
+	}
+
 	public class EC_Product : EntitiesBase
 	{
 		public override long Id { get; set; }
@@ -26,7 +37,8 @@ namespace BaseStructure_47
 		public string Name { get; set; }
 		public string Primary_Desc { get; set; }
 		public string Secondary_Desc { get; set; }
-		public decimal MRP { get; set; }
+		public decimal BasePrice { get; set; }
+		public decimal SalePrice { get; set; }
 		public string Primary_Images { get; set; }
 		public string Secondary_Images { get; set; }
 		[NotMapped] public string CategoryName { get; set; }
@@ -42,6 +54,7 @@ namespace BaseStructure_47
 		public override long Id { get; set; }
 		public long ProductId { get; set; }
 		public long VariantId { get; set; }
+		public decimal BasePrice { get; set; }
 		public decimal SalePrice { get; set; }
 		public string Primary_Desc { get; set; }
 		public string Secondary_Desc { get; set; }
@@ -58,6 +71,7 @@ namespace BaseStructure_47
 		public long ProductId { get; set; }
 		public long AttributeId { get; set; }
 		public long AttributeValueId { get; set; }
+		[NotMapped] public decimal BasePrice { get; set; }
 		[NotMapped] public decimal SalePrice { get; set; }
 	}
 
@@ -80,6 +94,7 @@ namespace BaseStructure_47
 		public long BranchId { get; set; }
 		public string Name { get; set; }
 		[NotMapped] public string AttributeValue { get; set; }
+		[NotMapped] public decimal BasePrice { get; set; }
 		[NotMapped] public decimal SalePrice { get; set; }
 	}
 

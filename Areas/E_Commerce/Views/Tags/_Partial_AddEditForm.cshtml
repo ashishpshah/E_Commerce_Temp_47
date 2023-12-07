@@ -1,0 +1,108 @@
+﻿@model ResponseModel<EC_Tags>
+
+@{ Layout = null; }
+
+<div class="col-md-12">
+    <div class="card card-info">
+
+        <div class="card-header">
+            <h3 class="card-title">@(Model.Obj != null && Model.Obj.Id > 0 ? "Edit": "Create") Tags</h3>
+            <input type="text" class="form-control d-none" id="Id" name="Id" value="@(Model.Obj != null && Model.Obj.Id > 0 ? Model.Obj.Id.ToString() : "")">
+        </div>
+
+        <div class="card-body">
+            <div class="row no-gutters">
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="Name" class="col-sm-2 col-form-label text-right">Tags Name</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control form-control-sm" id="Name" name="Name" value="@Model.Obj.Name"
+                                   data-required data-msg="The Tag Name field is required." autocomplete="off">
+                        </div>
+                        <label for="Desc" class="col-sm-2 col-form-label text-right">Description </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control form-control-sm" id="Desc" name="Desc" value="@Model.Obj.Desc" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Products" class="col-sm-2 col-form-label text-right">Products </label>
+                        <div class="col-sm-10">
+                            @{
+                                var selectedValue = string.IsNullOrEmpty(Model.Obj.Products) ? null : Model.Obj.Products.Split('#');
+                            }
+
+                            <select multiple id="selectProducts" class="form-control select2 w-100" onchange="fnChange_Select('Products')">
+                                <option value="">-- Select --</option>
+                                @foreach (var item in Model.SelectListItems.Where(x => x.Group == "P"))
+                                {
+                                    if (selectedValue != null && selectedValue.Any(x => x == item.Value))
+                                    {
+                                        <option value="@item.Value" selected>@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <input type="text" class="form-control form-control-sm d-none" id="inputProducts" name="Products" value="@Model.Obj.Products" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Categories" class="col-sm-2 col-form-label text-right">Categories </label>
+                        <div class="col-sm-10">
+                            @{
+                                selectedValue = string.IsNullOrEmpty(Model.Obj.Categories) ? null : Model.Obj.Categories.Split('#');
+                            }
+
+                            <select multiple id="selectCategories" class="form-control select2 w-100" onchange="fnChange_Select('Categories')">
+                                <option value="">-- Select --</option>
+                                @foreach (var item in Model.SelectListItems.Where(x => x.Group == "C"))
+                                {
+                                    if (selectedValue != null && selectedValue.Any(x => x == item.Value))
+                                    {
+                                        <option value="@item.Value" selected>@item.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <input type="text" class="form-control form-control-sm d-none" id="inputCategories" name="Categories" value="@Model.Obj.Categories" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Obj.IsActive" class="col-sm-2 col-form-label text-right">Status</label>
+                        <div class="col-sm-4">
+                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0">
+                                <input type="checkbox" class="custom-control-input"
+                                       id="switch_Status" name="IsActive" @(Model.Obj == null || Model.Obj.IsActive == true || Model.Obj.Id == 0 ? "checked" : "")
+                                       onchange="fnChange_Switch(this, 'label_Switch_Status')">
+                                <label class="custom-control-label" for="switch_Status" id="label_Switch_Status" data-true="Active" data-false="Inactive">@((Model.Obj != null && Model.Obj.IsActive == true) || Model.Obj == null || Model.Obj.Id == 0 ? "Active":"Inactive")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="row no-gutters">
+                <div class="col-sm-1">&nbsp;</div>
+                <div class="col-sm-6 text-left">
+                    <button type="submit" class="btn btn-success btnSubmit">Save</button>
+                    <button type="button" class="btn btn-danger" onclick="fnCloseParialView('divformSave', '#table_Common');">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+}
