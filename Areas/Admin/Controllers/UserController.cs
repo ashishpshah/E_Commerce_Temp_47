@@ -219,7 +219,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 							}
 
 
-							var role = _context.Roles.AsNoTracking().Where(x => x.Id == viewModel.Obj.User_Role_Id).FirstOrDefault();
+							var role = _context.Roles.AsNoTracking().ToList().Where(x => x.Id == viewModel.Obj.User_Role_Id).FirstOrDefault();
 
 							if (role != null && (Decrypt_RoleId != viewModel.Obj.User_Role_Id || Decrypt_CompanyId != viewModel.Obj.CompanyId || Decrypt_BranchId != viewModel.Obj.BranchId))
 							{

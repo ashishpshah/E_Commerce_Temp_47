@@ -15,9 +15,9 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 		public ActionResult Index()
 		{
 			if (Common.IsSuperAdmin())
-				CommonViewModel.ObjList = _context.Branches.AsNoTracking().Where(x => x.Id > 0).ToList();
+				CommonViewModel.ObjList = _context.Branches.AsNoTracking().ToList().Where(x => x.Id > 0).ToList();
 			else
-				CommonViewModel.ObjList = _context.Branches.AsNoTracking().Where(x => x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)).ToList();
+				CommonViewModel.ObjList = _context.Branches.AsNoTracking().ToList().Where(x => x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)).ToList();
 
 			List<Company> list = GetCompanyList();
 
@@ -34,9 +34,9 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			CommonViewModel.Obj = new Branch();
 
 			if (Common.IsSuperAdmin() && Common.IsAdmin() && Id > 0)
-				CommonViewModel.Obj = _context.Branches.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+				CommonViewModel.Obj = _context.Branches.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 			else if (!Common.IsSuperAdmin() && Common.IsAdmin() && Id > 0)
-				CommonViewModel.Obj = _context.Branches.AsNoTracking().Where(x => x.Id == Id && x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)).FirstOrDefault();
+				CommonViewModel.Obj = _context.Branches.AsNoTracking().ToList().Where(x => x.Id == Id && x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)).FirstOrDefault();
 
 			List<Company> list = GetCompanyList();
 
@@ -103,9 +103,9 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 						Branch obj = null;
 
 						if (Common.IsSuperAdmin() && Common.IsAdmin() && viewModel.Id > 0)
-							obj = _context.Branches.AsNoTracking().Where(x => x.Id == viewModel.Id).FirstOrDefault();
+							obj = _context.Branches.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id).FirstOrDefault();
 						else if (!Common.IsSuperAdmin() && Common.IsAdmin() && viewModel.Id > 0)
-							obj = _context.Branches.AsNoTracking().Where(x => x.Id == viewModel.Id && x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)).FirstOrDefault();
+							obj = _context.Branches.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id && x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)).FirstOrDefault();
 
 						//if (viewModel != null && !(viewModel.DisplayOrder > 0))
 						//	viewModel.DisplayOrder = (_context.Companies.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;
@@ -168,7 +168,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 				if (Common.IsAdmin() && !_context.UserRoleMappings.AsNoTracking().Any(x => x.BranchId == Id)
 					&& _context.Branches.AsNoTracking().Any(x => x.Id > 1 && x.Id == Id))
 				{
-					var obj = _context.Branches.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+					var obj = _context.Branches.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
 					_context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
 					_context.SaveChanges();
@@ -199,9 +199,9 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			List<Company> list = new List<Company>();
 
 			if (Common.IsSuperAdmin())
-				list = _context.Companies.AsNoTracking().Where(x => x.Id > 0).ToList();
+				list = _context.Companies.AsNoTracking().ToList().Where(x => x.Id > 0).ToList();
 			else
-				list = _context.Companies.AsNoTracking().Where(x => x.Id == Common.Get_Session_Int(SessionKey.COMPANY_ID)).ToList();
+				list = _context.Companies.AsNoTracking().ToList().Where(x => x.Id == Common.Get_Session_Int(SessionKey.COMPANY_ID)).ToList();
 
 			return list;
 		}

@@ -24,7 +24,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			CommonViewModel.Obj = new Contact();
 
 			if (Id > 0)
-				CommonViewModel.Obj = _context.Contacts.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+				CommonViewModel.Obj = _context.Contacts.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
 			return PartialView("_Partial_AddEditForm", CommonViewModel);
 		}
@@ -58,7 +58,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 					try
 					{
 
-						Contact obj = _context.Contacts.AsNoTracking().Where(x => x.Id == viewModel.Id).FirstOrDefault();
+						Contact obj = _context.Contacts.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id).FirstOrDefault();
 
 						if (viewModel != null && !(viewModel.DisplayOrder > 0))
 							viewModel.DisplayOrder = (_context.Contacts.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;
@@ -111,7 +111,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			{
 				if (_context.Contacts.AsNoTracking().Any(x => x.Id == Id))
 				{
-					var obj = _context.Contacts.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+					var obj = _context.Contacts.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
 					_context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
 					_context.SaveChanges();

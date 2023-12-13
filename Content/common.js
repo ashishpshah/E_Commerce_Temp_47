@@ -518,56 +518,61 @@ function fnDelete_Confirm(url) {
         confirmButtonText: 'Yes!',
         //closeOnConfirm: false
     }).then((result) => {
-        if (result) {
-            ShowLoader(true);
 
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: null,
-                success: function (response) {
-                    ShowLoader(false);
+        try {
 
-                    try {
-                        if (response.StatusCode === 1) {
-                            if (typeof response.IsConfirm != 'undefined' && response.IsConfirm != '' && response.IsConfirm != null && response.IsConfirm == true)
-                                if (typeof response.RedirectURL != 'undefined' && response.RedirectURL != '' && response.RedirectURL != null)
-                                    CommonConfirmed_Success(response.Message, response.RedirectURL, null);
+            if (result != null && result.value == true) {
+                ShowLoader(true);
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: null,
+                    success: function (response) {
+                        ShowLoader(false);
+
+                        try {
+                            if (response.StatusCode === 1) {
+                                if (typeof response.IsConfirm != 'undefined' && response.IsConfirm != '' && response.IsConfirm != null && response.IsConfirm == true)
+                                    if (typeof response.RedirectURL != 'undefined' && response.RedirectURL != '' && response.RedirectURL != null)
+                                        CommonConfirmed_Success(response.Message, response.RedirectURL, null);
+                                    else
+                                        CommonConfirmed_Success(response.Message, fnDelete_Success, [response]);
                                 else
-                                    CommonConfirmed_Success(response.Message, fnDelete_Success, [response]);
-                            else
-                                if (typeof response.RedirectURL != 'undefined' && response.RedirectURL != '' && response.RedirectURL != null)
-                                    window.location = response.RedirectURL;
-                                else fnDelete_Success(response);
-                        }
-                        else CommonAlert_Error(response.Message);
-                    } catch { window.location.reload(); }
-                },
-                //xhr: function () {
-                //    var fileXhr = $.ajaxSettings.xhr();
-                //    if (fileXhr.upload) {
-                //        $("progress").show();
-                //        fileXhr.upload.addEventListener("progress", function (e) {
-                //            if (e.lengthComputable) {
-                //                $("#fileProgress").attr({
-                //                    value: e.loaded,
-                //                    max: e.total
-                //                });
-                //            }
-                //        }, false);
-                //    }
-                //    return fileXhr;
-                //},
-                failure: function (response) {
-                    ShowLoader(false);
-                    Swal.fire({ icon: 'error', title: 'Oops...! Something went wrong!' })
-                },
-                error: function (response) {
-                    ShowLoader(false);
-                    Swal.fire({ icon: 'error', title: 'Oops...! Something went wrong!' })
-                }
-            });
-        }
+                                    if (typeof response.RedirectURL != 'undefined' && response.RedirectURL != '' && response.RedirectURL != null)
+                                        window.location = response.RedirectURL;
+                                    else fnDelete_Success(response);
+                            }
+                            else CommonAlert_Error(response.Message);
+                        } catch { window.location.reload(); }
+                    },
+                    //xhr: function () {
+                    //    var fileXhr = $.ajaxSettings.xhr();
+                    //    if (fileXhr.upload) {
+                    //        $("progress").show();
+                    //        fileXhr.upload.addEventListener("progress", function (e) {
+                    //            if (e.lengthComputable) {
+                    //                $("#fileProgress").attr({
+                    //                    value: e.loaded,
+                    //                    max: e.total
+                    //                });
+                    //            }
+                    //        }, false);
+                    //    }
+                    //    return fileXhr;
+                    //},
+                    failure: function (response) {
+                        ShowLoader(false);
+                        Swal.fire({ icon: 'error', title: 'Oops...! Something went wrong!' })
+                    },
+                    error: function (response) {
+                        ShowLoader(false);
+                        Swal.fire({ icon: 'error', title: 'Oops...! Something went wrong!' })
+                    }
+                });
+            }
+
+        } catch { }
     });
 }
 

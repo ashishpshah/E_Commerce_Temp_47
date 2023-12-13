@@ -15,7 +15,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 		public ActionResult Index()
 		{
 			if (Common.IsSuperAdmin() && Common.IsAdmin())
-				CommonViewModel.ObjList = _context.Roles.AsNoTracking().Where(x => x.Id > 1).ToList();
+				CommonViewModel.ObjList = _context.Roles.AsNoTracking().ToList().Where(x => x.Id > 1).ToList();
 
 			return View(CommonViewModel);
 		}
@@ -26,7 +26,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			CommonViewModel.Obj = new Role();
 
 			if (Common.IsSuperAdmin() && Common.IsAdmin() && Id > 1)
-				CommonViewModel.Obj = _context.Roles.AsNoTracking().Where(x => x.Id > 1 && x.Id == Id).FirstOrDefault();
+				CommonViewModel.Obj = _context.Roles.AsNoTracking().ToList().Where(x => x.Id > 1 && x.Id == Id).FirstOrDefault();
 
 
 			var listMenu = _context.Menus.AsNoTracking().ToList();
@@ -109,7 +109,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 						try
 						{
 
-							Role obj = _context.Roles.AsNoTracking().Where(x => x.Id > 1 && x.Id == viewModel.Id).FirstOrDefault();
+							Role obj = _context.Roles.AsNoTracking().ToList().Where(x => x.Id > 1 && x.Id == viewModel.Id).FirstOrDefault();
 
 							if (viewModel != null && !(viewModel.DisplayOrder > 0))
 								viewModel.DisplayOrder = (_context.Roles.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;
@@ -224,7 +224,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 				if (Common.IsSuperAdmin() && Common.IsAdmin() && !_context.UserRoleMappings.AsNoTracking().Any(x => x.Id > 1 && x.RoleId == Id)
 					&& _context.Roles.AsNoTracking().Any(x => x.Id > 1 && x.Id == Id))
 				{
-					var obj = _context.Roles.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+					var obj = _context.Roles.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
 					_context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
 					_context.SaveChanges();

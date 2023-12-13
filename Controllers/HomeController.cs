@@ -149,11 +149,11 @@ namespace BaseStructure_47.Controllers
 				{
 					viewModel.Password = Common.Encrypt(viewModel.Password);
 
-					var obj = _context.Users.AsNoTracking().Where(x => x.UserName == viewModel.UserName && x.Password == viewModel.Password).FirstOrDefault();
+					var obj = _context.Users.AsNoTracking().ToList().Where(x => x.UserName == viewModel.UserName && x.Password == viewModel.Password).FirstOrDefault();
 
 					if (obj != null && obj.IsActive == true && obj.IsDeleted == false)
 					{
-						var userRoles = _context.UserRoleMappings.AsNoTracking().Where(x => x.UserId == obj.Id).ToList();
+						var userRoles = _context.UserRoleMappings.AsNoTracking().ToList().Where(x => x.UserId == obj.Id).ToList();
 
 						if (userRoles != null && userRoles.Any(x => x.CompanyId == viewModel.CompanyId && x.BranchId == viewModel.BranchId))
 						{
@@ -179,7 +179,7 @@ namespace BaseStructure_47.Controllers
 						List<UserMenuAccess> listMenuAccess = new List<UserMenuAccess>();
 						List<UserMenuAccess> listMenuPermission = new List<UserMenuAccess>();
 
-						Role role = _context.Roles.AsNoTracking().Where(x => x.Id == obj.RoleId).FirstOrDefault();
+						Role role = _context.Roles.AsNoTracking().ToList().Where(x => x.Id == obj.RoleId).FirstOrDefault();
 
 						if (role != null && role.Id == 1)
 						{
@@ -261,9 +261,9 @@ namespace BaseStructure_47.Controllers
 		{
 			if (!string.IsNullOrEmpty(UserName))
 			{
-				var obj = _context.Users.AsNoTracking().Where(x => x.UserName == UserName).FirstOrDefault();
+				var obj = _context.Users.AsNoTracking().ToList().Where(x => x.UserName == UserName).FirstOrDefault();
 
-				List<UserRoleMapping> userRole = obj != null ? _context.UserRoleMappings.AsNoTracking().Where(x => x.UserId == obj.Id).ToList() : null;
+				List<UserRoleMapping> userRole = obj != null ? _context.UserRoleMappings.AsNoTracking().ToList().Where(x => x.UserId == obj.Id).ToList() : null;
 
 				List<SelectListItem> list = userRole != null ? (from x in _context.Companies.AsNoTracking().ToList()
 																join y in userRole on x.Id equals y.CompanyId
@@ -288,9 +288,9 @@ namespace BaseStructure_47.Controllers
 
 				if (!string.IsNullOrEmpty(UserName))
 				{
-					var obj = _context.Users.AsNoTracking().Where(x => x.UserName == UserName).FirstOrDefault();
+					var obj = _context.Users.AsNoTracking().ToList().Where(x => x.UserName == UserName).FirstOrDefault();
 
-					userRole = obj != null ? _context.UserRoleMappings.AsNoTracking().Where(x => x.UserId == obj.Id).ToList() : null;
+					userRole = obj != null ? _context.UserRoleMappings.AsNoTracking().ToList().Where(x => x.UserId == obj.Id).ToList() : null;
 				}
 
 				List<SelectListItem> list = userRole != null ? (from x in _context.Branches.AsNoTracking().ToList()

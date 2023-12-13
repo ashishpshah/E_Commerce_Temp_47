@@ -34,9 +34,9 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			CommonViewModel.Obj = new Menu();
 
 			if (Common.IsSuperAdmin() && Common.IsAdmin() && Id > 0)
-				CommonViewModel.Obj = _context.Menus.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+				CommonViewModel.Obj = _context.Menus.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
-			CommonViewModel.SelectListItems = _context.Menus.AsNoTracking().Where(x => x.IsActive == true && x.IsDeleted == false).ToList()
+			CommonViewModel.SelectListItems = _context.Menus.AsNoTracking().ToList().Where(x => x.IsActive == true && x.IsDeleted == false).ToList()
 				.Select(x => new SelectListItem_Custom(Convert.ToString(x.Id), Convert.ToString(x.Name))).ToList();
 
 			return PartialView("_Partial_AddEditForm", CommonViewModel);
@@ -88,7 +88,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 					try
 					{
 
-						Menu obj = _context.Menus.AsNoTracking().Where(x => x.Id == viewModel.Id).FirstOrDefault();
+						Menu obj = _context.Menus.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id).FirstOrDefault();
 
 						if (viewModel != null && !(viewModel.DisplayOrder > 0))
 							viewModel.DisplayOrder = (_context.Roles.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;
@@ -156,7 +156,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 				if (Common.IsSuperAdmin() && Common.IsAdmin() && !_context.UserMenuAccesses.AsNoTracking().Any(x => x.MenuId == Id)
 					&& _context.Menus.AsNoTracking().Any(x => x.Id == Id))
 				{
-					var obj = _context.Menus.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+					var obj = _context.Menus.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
 					_context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
 					_context.SaveChanges();

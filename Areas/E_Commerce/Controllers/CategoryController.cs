@@ -147,7 +147,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 			{
 				if (_context.Category.AsNoTracking().Any(x => x.Id == Id && x.ParentId != Id))
 				{
-					var obj = _context.Category.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+					var obj = _context.Category.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
 					_context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
 					_context.SaveChanges();

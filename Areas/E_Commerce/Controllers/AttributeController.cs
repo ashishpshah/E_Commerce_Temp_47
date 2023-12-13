@@ -205,7 +205,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 			{
 				if (_context.Attributes.AsNoTracking().Any(x => x.Id == Id))
 				{
-					var obj = _context.Attributes.AsNoTracking().Where(x => x.Id == Id).FirstOrDefault();
+					var obj = _context.Attributes.AsNoTracking().ToList().Where(x => x.Id == Id).FirstOrDefault();
 
 					_context.Entry(obj).State = System.Data.Entity.EntityState.Deleted;
 					_context.SaveChanges();
