@@ -170,7 +170,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 
 			var listMenu = new List<Menu>();
 
-			listMenu = _context.Menus.AsNoTracking().ToList().ToList();
+			listMenu = _context.Menus.AsNoTracking().ToList().Where(x => x.IsSuperAdmin == (RoleId == 1) && x.IsAdmin == listRole.Any(y => y.IsAdmin == true)).ToList();
 
 			foreach (var item in listMenu.Where(x => x.ParentId > 0).ToList())
 				item.ParentMenuName = listMenu.Where(x => x.Id == item.ParentId).Select(x => x.Name).FirstOrDefault();

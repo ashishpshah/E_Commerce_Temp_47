@@ -165,6 +165,57 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 
 
 
+		[HttpPost]
+		[AllowAnonymous]
+		public JsonResult GetCompany(string UserName = null)
+		{
+			if (!string.IsNullOrEmpty(UserName))
+			{
+				var obj = _context.Users.AsNoTracking().Where(x => x.UserName == UserName).FirstOrDefault();
+
+				List<UserRoleMapping> userRole = obj != null ? _context.UserRoleMappings.AsNoTracking().Where(x => x.UserId == obj.Id).ToList() : null;
+
+				List<SelectListItem> list = userRole != null ? (from x in _context.Companies.AsNoTracking().ToList()
+																join y in userRole on x.Id equals y.CompanyId
+																where x.IsActive == true
+																select new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).Distinct().ToList() : null;
+
+				if (list != null && list.Count() > 0)
+					return Json(list);
+			}
+
+			return Json(new List<SelectListItem>());
+		}
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		public JsonResult GetBranch(long CompanyId = 0, string UserName = null)
+		{
+			if (CompanyId > 0)
+			{
+				List<UserRoleMapping> userRole = null;
+
+				if (!string.IsNullOrEmpty(UserName))
+				{
+					var obj = _context.Users.AsNoTracking().Where(x => x.UserName == UserName).FirstOrDefault();
+
+					userRole = obj != null ? _context.UserRoleMappings.AsNoTracking().Where(x => x.UserId == obj.Id).ToList() : null;
+				}
+
+				List<SelectListItem> list = userRole != null ? (from x in _context.Branches.AsNoTracking().ToList()
+																join y in userRole on x.Id equals y.BranchId
+																where x.IsActive == true && x.CompanyId == CompanyId
+																select new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).Distinct().ToList() : null;
+
+				if (list != null && list.Count() > 0)
+					return Json(list);
+			}
+
+			return Json(new List<SelectListItem>());
+		}
+
+
 		public ActionResult Logout()
 		{
 			Common.Clear_Session();

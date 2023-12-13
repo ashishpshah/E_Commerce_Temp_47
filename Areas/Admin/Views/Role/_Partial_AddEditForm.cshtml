@@ -21,9 +21,24 @@
                         </div>
                     </div>
 
+                    @if (Common.IsSuperAdmin())
+                    {
+                        <div class="form-group row">
+                            <label for="IsAdmin" class="col-sm-2 col-form-label text-right">Admin</label>
+                            <div class="col-sm-4">
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0">
+                                    <input type="checkbox" class="custom-control-input"
+                                           id="switch_Admin" name="IsAdmin" @(Model.Obj == null || Model.Obj.IsAdmin == true ? "checked" : "")
+                                           onchange="fnChange_Switch(this, 'label_Switch_Admin')">
+                                    <label class="custom-control-label" for="switch_Admin" id="label_Switch_Admin" data-true="Active" data-false="Inactive">@((Model.Obj != null && Model.Obj.IsAdmin == true) || Model.Obj == null || Model.Obj.Id == 0 ? "Active":"Inactive")</label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                     <div class="form-group row">
                         <label for="IsActive" class="col-sm-2 col-form-label text-right">Status</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success form-control border-0">
                                 <input type="checkbox" class="custom-control-input"
                                        id="switch_Status" name="IsActive" @(Model.Obj == null || Model.Obj.IsActive == true || Model.Obj.Id == 0 ? "checked" : "")

@@ -23,8 +23,7 @@ $(document).ready(function () {
         try { $(aTags[0]).parents('ul.nav-treeview').parents('li.nav-item').addClass('menu-open'); } catch { }
     }
 
-    $('.select2').select2();
-
+    try { $('.select2').select2(); } catch { }
 
     $('[data-toggle="tooltip"]').tooltip()
 

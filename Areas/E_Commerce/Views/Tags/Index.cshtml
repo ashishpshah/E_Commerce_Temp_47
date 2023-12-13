@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Areas/E_Commerce/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -14,7 +14,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-sm-right">
-                    @if (Model.IsCreate == true)
+                    @If (Model.IsCreate == true)
                     {
                         <button type="button" id="btnAddNewItem" class="btn btn-primary btn-md pull-right mr-2 divformSave_Hide" onclick="fnLoadParialView('divformSave', '@Url.Action("Partial_AddEditForm","Tags", new {  area = "Admin" })');">
                             <i class="fas fa-plus"></i> &nbsp; Add new item

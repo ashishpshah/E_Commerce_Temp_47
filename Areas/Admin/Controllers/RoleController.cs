@@ -85,6 +85,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 						{
 							obj.Name = viewModel.Name;
 							obj.DisplayOrder = viewModel.DisplayOrder;
+							obj.IsAdmin = Common.IsSuperAdmin() ? viewModel.IsAdmin : false;
 							obj.IsActive = viewModel.IsActive;
 
 							_context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
@@ -92,6 +93,8 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 						}
 						else if (Common.IsSuperAdmin() && Common.IsAdmin())
 						{
+							viewModel.IsAdmin = Common.IsSuperAdmin() ? viewModel.IsAdmin : false;
+
 							_context.Roles.Add(viewModel);
 							_context.SaveChanges();
 						}

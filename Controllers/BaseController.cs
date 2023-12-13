@@ -45,7 +45,6 @@ namespace BaseStructure_47.Controllers
 
 			IsLogActive = Convert.ToBoolean(ConfigurationManager.AppSettings["IsLogActive"]);
 
-
 			List<UserMenuAccess> listMenuAccess = Common.GetUserMenuPermission();
 
 			if (listMenuAccess != null && listMenuAccess.Count > 0)
@@ -53,7 +52,7 @@ namespace BaseStructure_47.Controllers
 				if (listMenuAccess.FindIndex(x => x.Controller == controllerName) > -1)
 				{
 					CommonViewModel.IsCreate = listMenuAccess[listMenuAccess.FindIndex(x => x.Controller == controllerName)].IsCreate;
-					CommonViewModel.IsRead = listMenuAccess[listMenuAccess.FindIndex(x =>   x.Controller == controllerName)].IsRead;
+					CommonViewModel.IsRead = listMenuAccess[listMenuAccess.FindIndex(x => x.Controller == controllerName)].IsRead;
 					CommonViewModel.IsUpdate = listMenuAccess[listMenuAccess.FindIndex(x => x.Controller == controllerName)].IsUpdate;
 					CommonViewModel.IsDelete = listMenuAccess[listMenuAccess.FindIndex(x => x.Controller == controllerName)].IsDelete;
 				}
@@ -64,7 +63,11 @@ namespace BaseStructure_47.Controllers
 				context.Result = new RedirectResult(Url.Content("~/") + (string.IsNullOrEmpty(areaName) ? "" : areaName + "/") + "Home/Login");
 				return;
 			}
-
+			else if (Common.IsUserLogged() && !Common.IsAdmin() && !string.IsNullOrEmpty(areaName))
+			{
+				context.Result = new RedirectResult(Url.Content("~/") + "Home/Login");
+				return;
+			}
 
 			//if (!AppHttpContextAccessor.IsLogged() && Convert.ToString(controllerName).ToLower() != "home" && Convert.ToString(actionName).ToLower() != "login")
 			//{

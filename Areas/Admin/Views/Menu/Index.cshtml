@@ -50,34 +50,38 @@
                                         <tr><th class="no_sorting">#</th><th>Parent Menu</th><th>Menu</th><th width="5%">Status</th><th>Action</th></tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in Model.ObjList.OrderBy(x => x.Id))
+
+                                        @if (Model.ObjList != null)
                                         {
-                                            <tr>
-                                                <td></td>
-                                                <td>@item.ParentMenuName</td>
-                                                <td>@item.Name</td>
-                                                <td class="text-center"><span class="badge bg-@(item.IsActive == true ? "success" : "danger")">@(item.IsActive == true ? "Active" : "Inactive")</span></td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        @if (Model.IsUpdate == true)
-                                                        {
-                                                            <button type="button" class="btn btn-info btn-sm btn-flat" data-toggle="tooltip" data-placement="top" title="Edit"
-                                                                    onclick="fnLoadParialView('divformSave', '@Url.Action("Partial_AddEditForm","Menu", new {  area = "Admin" })?Id=@item.Id');">
-                                                                <i class="far fa-edit"></i>
-                                                            </button>
-                                                        }
-                                                        @if (Model.IsDelete == true && item.IsDeleted == false)
-                                                        {
-                                                            <button type="button" class="btn btn-danger btn-sm btn-flat ml-2" data-toggle="tooltip" data-placement="top" title="Delete"
-                                                                    onclick="fnDelete_Confirm('@Url.Action("DeleteConfirmed","Menu", new {  area = "Admin" })?Id=@item.Id');">
-                                                                <i class="far fa-trash-alt"></i>
-                                                            </button>
-                                                        }
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            foreach (var item in Model.ObjList.OrderBy(x => x.Id))
+                                            {
+                                                <tr>
+                                                    <td></td>
+                                                    <td>@item.ParentMenuName</td>
+                                                    <td>@item.Name</td>
+                                                    <td class="text-center"><span class="badge bg-@(item.IsActive == true ? "success" : "danger")">@(item.IsActive == true ? "Active" : "Inactive")</span></td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            @if (Model.IsUpdate == true)
+                                                            {
+                                                                <button type="button" class="btn btn-info btn-sm btn-flat" data-toggle="tooltip" data-placement="top" title="Edit"
+                                                                        onclick="fnLoadParialView('divformSave', '@Url.Action("Partial_AddEditForm","Menu", new {  area = "Admin" })?Id=@item.Id');">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                            }
+                                                            @if (Model.IsDelete == true && item.IsDeleted == false)
+                                                            {
+                                                                <button type="button" class="btn btn-danger btn-sm btn-flat ml-2" data-toggle="tooltip" data-placement="top" title="Delete"
+                                                                        onclick="fnDelete_Confirm('@Url.Action("DeleteConfirmed","Menu", new {  area = "Admin" })?Id=@item.Id');">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
-                                    </tbody>
+                                        </tbody>
                                 </table>
                             </div>
 

@@ -11,6 +11,7 @@ namespace BaseStructure_47
 {
 	public static class Common
 	{
+		public static string ApplicationName = System.Configuration.ConfigurationManager.AppSettings["ApplicationName"];
 		private static string EncrKey = System.Configuration.ConfigurationManager.AppSettings["EncrKey"];
 		public static string DbConnectionString = System.Configuration.ConfigurationManager.AppSettings["DbConnectionString"];
 
