@@ -40,7 +40,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 
 			List<Company> list = GetCompanyList();
 
-			CommonViewModel.SelectListItems = list.Where(x => x.Id > 1 && x.IsActive == true && x.IsDeleted == false)
+			CommonViewModel.SelectListItems = list.Where(x => x.IsActive == true && x.IsDeleted == false)
 				.Select(x => new SelectListItem_Custom(Convert.ToString(x.Id), Convert.ToString(x.Name))).ToList();
 
 			return PartialView("_Partial_AddEditForm", CommonViewModel);
@@ -100,8 +100,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 					//{
 					try
 					{
-
-						Branch obj = new Branch();
+						Branch obj = null;
 
 						if (Common.IsSuperAdmin() && Common.IsAdmin() && viewModel.Id > 0)
 							obj = _context.Branches.AsNoTracking().Where(x => x.Id == viewModel.Id).FirstOrDefault();

@@ -168,9 +168,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 						where x.Id == RoleId
 						select new Role { Id = x.Id, Name = x.Name, IsAdmin = x.IsAdmin }).Distinct().ToList();
 
-			var listMenu = new List<Menu>();
-
-			listMenu = _context.Menus.AsNoTracking().ToList().Where(x => x.IsSuperAdmin == (RoleId == 1) && x.IsAdmin == listRole.Any(y => y.IsAdmin == true)).ToList();
+			var listMenu = _context.Menus.AsNoTracking().ToList().Where(x => x.IsSuperAdmin == (RoleId == 1) && x.IsAdmin == listRole.Any(y => y.IsAdmin == true)).ToList();
 
 			foreach (var item in listMenu.Where(x => x.ParentId > 0).ToList())
 				item.ParentMenuName = listMenu.Where(x => x.Id == item.ParentId).Select(x => x.Name).FirstOrDefault();

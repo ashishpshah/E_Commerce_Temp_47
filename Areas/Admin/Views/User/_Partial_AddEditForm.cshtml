@@ -9,6 +9,10 @@
             <h3 class="card-title">@(Model.Obj != null && Model.Obj.Id > 0 ? "Edit": "Create") User</h3>
             <input type="text" class="form-control d-none" id="Id" name="Obj.Id" value="@(Model.Obj != null && Model.Obj.Id > 0 ? Model.Obj.Id.ToString() : "")">
             <input type="text" class="form-control d-none" id="RoleId" name="Obj.RoleId" value="@(Model.Obj != null && Model.Obj.User_Role_Id > 0 ? Model.Obj.User_Role_Id.ToString() : "")">
+            <input type="text" class="form-control d-none" id="User_Id_Str" name="Obj.User_Id_Str" value="@(Model.Obj != null ? Model.Obj.User_Id_Str : "")">
+            <input type="text" class="form-control d-none" id="Role_Id_Str" name="Obj.Role_Id_Str" value="@(Model.Obj != null ?Model.Obj.Role_Id_Str : "")">
+            <input type="text" class="form-control d-none" id="Company_Id_Str" name="Obj.Company_Id_Str" value="@(Model.Obj != null ?Model.Obj.Company_Id_Str : "")">
+            <input type="text" class="form-control d-none" id="Branch_Id_Str" name="Obj.Branch_Id_Str" value="@(Model.Obj != null ?Model.Obj.Branch_Id_Str : "")">
         </div>
 
         <div class="card-body">
@@ -61,6 +65,7 @@
                         <label for="Obj.User_Role_Id" class="col-sm-2 col-form-label text-right">Role</label>
                         <div class="col-sm-6">
                             <select id="ddlUser_Role_Id" name="Obj.User_Role_Id" class="form-control form-control-sm select2">
+                                <option value="0">-- Select --</option>
                                 @if (Model.SelectListItems != null)
                                 {
                                     foreach (var item in Model.SelectListItems)
@@ -83,6 +88,7 @@
                         <label for="Obj.CompanyId" class="col-sm-2 col-form-label text-right">Company</label>
                         <div class="col-sm-6">
                             <select id="ddlCompany" name="Obj.CompanyId" class="form-control form-control-sm select2" onchange="fnChange_Company(this)">
+                                <option value="0">-- Select --</option>
                                 @if (Model.Data1 != null)
                                 {
                                     foreach (var item in (List<SelectListItem>)Model.Data1)
@@ -105,6 +111,7 @@
                         <label for="Obj.BranchId" class="col-sm-2 col-form-label text-right">Branch</label>
                         <div class="col-sm-6">
                             <select id="ddlBranch" name="Obj.BranchId" class="form-control form-control-sm select2">
+                                <option value="0">-- Select --</option>
                                 @if (Model.Data2 != null)
                                 {
                                     foreach (var item in (List<SelectListItem>)Model.Data2)

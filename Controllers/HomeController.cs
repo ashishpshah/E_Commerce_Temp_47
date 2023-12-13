@@ -14,90 +14,90 @@ namespace BaseStructure_47.Controllers
 		{
 			try
 			{
-				//var list = _context.Companies.ToList();
+				var list = _context.Companies.ToList();
 
-				//if (list == null || list.Count == 0)
-				//{
-				//	var company = new Company() { Name = "VK Jewellers", CreatedBy = 1 };
-				//	_context.Companies.Add(company);
-				//	_context.SaveChanges();
-				//	_context.Entry(company).Reload();
+				if (list == null || list.Count == 0)
+				{
+					var company = new Company() { Name = "VK Jewellers", CreatedBy = 1 };
+					_context.Companies.Add(company);
+					_context.SaveChanges();
+					_context.Entry(company).Reload();
 
-				//	var branch = new Branch() { Name = "Branch 1", CreatedBy = 1 };
-				//	//_context.Branches.Add(branch);
-				//	//_context.SaveChanges();
-				//	//_context.Entry(branch).Reload();
+					var branch = new Branch() { Name = "Branch 1", CreatedBy = 1 };
+					//_context.Branches.Add(branch);
+					//_context.SaveChanges();
+					//_context.Entry(branch).Reload();
 
-				//	var user = new User() { UserName = "Adnin", Password = Common.Encrypt("admin123"), CreatedBy = 1 };
-				//	_context.Users.Add(user);
-				//	_context.SaveChanges();
-				//	_context.Entry(user).Reload();
+					var user = new User() { UserName = "Adnin", Password = Common.Encrypt("admin123"), CreatedBy = 1 };
+					_context.Users.Add(user);
+					_context.SaveChanges();
+					_context.Entry(user).Reload();
 
-				//	var role = new Role() { Name = "Super Admin", IsAdmin = true, CreatedBy = 1 };
-				//	_context.Roles.Add(role);
-				//	_context.SaveChanges();
+					var role = new Role() { Name = "Super Admin", IsAdmin = true, CreatedBy = 1 };
+					_context.Roles.Add(role);
+					_context.SaveChanges();
 
-				//	var userRole = new UserRoleMapping() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, CreatedBy = 1 };
-				//	_context.UserRoleMappings.Add(userRole);
-				//	_context.SaveChanges();
+					var userRole = new UserRoleMapping() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, CreatedBy = 1 };
+					_context.UserRoleMappings.Add(userRole);
+					_context.SaveChanges();
 
-				//	user = new User() { UserName = "Admin", Password = Common.Encrypt("admin"), CreatedBy = 1 };
-				//	_context.Users.Add(user);
-				//	_context.SaveChanges();
-				//	_context.Entry(user).Reload();
+					user = new User() { UserName = "Admin", Password = Common.Encrypt("admin"), CreatedBy = 1 };
+					_context.Users.Add(user);
+					_context.SaveChanges();
+					_context.Entry(user).Reload();
 
-				//	role = new Role() { Name = "Admin", IsAdmin = true, CreatedBy = 1 };
-				//	_context.Roles.Add(role);
-				//	_context.SaveChanges();
-				//	_context.Entry(role).Reload();
+					role = new Role() { Name = "Admin", IsAdmin = true, CreatedBy = 1 };
+					_context.Roles.Add(role);
+					_context.SaveChanges();
+					_context.Entry(role).Reload();
 
-				//	userRole = new UserRoleMapping() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, CreatedBy = 1 };
-				//	_context.UserRoleMappings.Add(userRole);
-				//	_context.SaveChanges();
+					userRole = new UserRoleMapping() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, CreatedBy = 1 };
+					_context.UserRoleMappings.Add(userRole);
+					_context.SaveChanges();
 
-				//	var menu = new Menu() { ParentId = 0, Area = "", Controller = "", Name = "Company Master", DisplayOrder = 1, CreatedBy = 1 };
-				//	_context.Menus.Add(menu);
-				//	_context.SaveChanges();
-				//	_context.Entry(menu).Reload();
+					var menu = new Menu() { ParentId = 0, Area = "", Controller = "", Name = "Company Master", DisplayOrder = 1, CreatedBy = 1 };
+					_context.Menus.Add(menu);
+					_context.SaveChanges();
+					_context.Entry(menu).Reload();
 
-				//	var userMenuAccess = new UserMenuAccess() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, MenuId = menu.Id, IsCreate = true, IsUpdate = true, IsRead = true, IsDelete = true, CreatedBy = 1 };
-				//	_context.UserMenuAccesses.Add(userMenuAccess);
-				//	_context.SaveChanges();
+					var userMenuAccess = new UserMenuAccess() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, MenuId = menu.Id, IsCreate = true, IsUpdate = true, IsRead = true, IsDelete = true, CreatedBy = 1 };
+					_context.UserMenuAccesses.Add(userMenuAccess);
+					_context.SaveChanges();
 
-				//	List<Menu> listMenu_Child = new List<Menu>()
-				//	{
-				//		new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Company", Name="Company", DisplayOrder = 1, CreatedBy = 1},
-				//		new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Branch", Name="Branch", DisplayOrder = 2, CreatedBy = 1},
-				//		new Menu(){ ParentId = menu.Id, Area="Admin", Controller="User", Name="User", DisplayOrder = 3, CreatedBy = 1},
-				//		new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Role", Name="Role", DisplayOrder = 4, CreatedBy = 1},
-				//		new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Access", Name="User Access", DisplayOrder = 5, CreatedBy = 1},
-				//		new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Menu", Name="Menu", DisplayOrder = 6, CreatedBy = 1},
-				//		new Menu(){ ParentId = 0, Area="", Controller="Employee", Name="Employee", DisplayOrder = 2, CreatedBy = 1},
-				//		new Menu(){ ParentId = 0, Area="", Controller="Contact", Name="Contact Us", DisplayOrder = 3, CreatedBy = 1},
-				//		new Menu(){ ParentId = 0, Area="", Controller="About", Name="About Us", DisplayOrder = 4, CreatedBy = 1}
-				//	};
+					List<Menu> listMenu_Child = new List<Menu>()
+					{
+						new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Company", Name="Company", DisplayOrder = 1, CreatedBy = 1},
+						new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Branch", Name="Branch", DisplayOrder = 2, CreatedBy = 1},
+						new Menu(){ ParentId = menu.Id, Area="Admin", Controller="User", Name="User", DisplayOrder = 3, CreatedBy = 1},
+						new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Role", Name="Role", DisplayOrder = 4, CreatedBy = 1},
+						new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Access", Name="User Access", DisplayOrder = 5, CreatedBy = 1},
+						new Menu(){ ParentId = menu.Id, Area="Admin", Controller="Menu", Name="Menu", DisplayOrder = 6, CreatedBy = 1},
+						new Menu(){ ParentId = 0, Area="", Controller="Employee", Name="Employee", DisplayOrder = 2, CreatedBy = 1},
+						new Menu(){ ParentId = 0, Area="", Controller="Contact", Name="Contact Us", DisplayOrder = 3, CreatedBy = 1},
+						new Menu(){ ParentId = 0, Area="", Controller="About", Name="About Us", DisplayOrder = 4, CreatedBy = 1}
+					};
 
-				//	foreach (var item in listMenu_Child)
-				//	{
-				//		_context.Menus.Add(item);
-				//		_context.SaveChanges();
-				//		_context.Entry(item).Reload();
-				//	}
+					foreach (var item in listMenu_Child)
+					{
+						_context.Menus.Add(item);
+						_context.SaveChanges();
+						_context.Entry(item).Reload();
+					}
 
-				//	foreach (var item in listMenu_Child.OrderBy(x => x.ParentId).ThenBy(x => x.Id).ToList())
-				//	{
-				//		var roleMenuAccess = new RoleMenuAccess() { RoleId = role.Id, MenuId = item.Id, IsCreate = true, IsUpdate = true, IsRead = true, IsDelete = true, CreatedBy = 1 };
-				//		_context.RoleMenuAccesses.Add(roleMenuAccess);
-				//		_context.SaveChanges();
-				//	}
+					foreach (var item in listMenu_Child.OrderBy(x => x.ParentId).ThenBy(x => x.Id).ToList())
+					{
+						var roleMenuAccess = new RoleMenuAccess() { RoleId = role.Id, MenuId = item.Id, IsCreate = true, IsUpdate = true, IsRead = true, IsDelete = true, CreatedBy = 1 };
+						_context.RoleMenuAccesses.Add(roleMenuAccess);
+						_context.SaveChanges();
+					}
 
-				//	foreach (var item in listMenu_Child.OrderBy(x => x.ParentId).ThenBy(x => x.Id).ToList())
-				//	{
-				//		userMenuAccess = new UserMenuAccess() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, MenuId = item.Id, IsCreate = true, IsUpdate = true, IsRead = true, IsDelete = true, CreatedBy = 1 };
-				//		_context.UserMenuAccesses.Add(userMenuAccess);
-				//		_context.SaveChanges();
-				//	}
-				//}
+					foreach (var item in listMenu_Child.OrderBy(x => x.ParentId).ThenBy(x => x.Id).ToList())
+					{
+						userMenuAccess = new UserMenuAccess() { UserId = user.Id, RoleId = role.Id, CompanyId = company.Id, BranchId = branch.Id, MenuId = item.Id, IsCreate = true, IsUpdate = true, IsRead = true, IsDelete = true, CreatedBy = 1 };
+						_context.UserMenuAccesses.Add(userMenuAccess);
+						_context.SaveChanges();
+					}
+				}
 
 				if (Common.LoggedUser_Id() == 0)
 					return RedirectToAction("Login", "Home", new { Area = "" });

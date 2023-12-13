@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace BaseStructure_47.Areas.Admin.Controllers
 {
@@ -26,6 +27,38 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 
 			if (Common.IsSuperAdmin() && Common.IsAdmin() && Id > 1)
 				CommonViewModel.Obj = _context.Roles.AsNoTracking().Where(x => x.Id > 1 && x.Id == Id).FirstOrDefault();
+
+
+			var listMenu = _context.Menus.AsNoTracking().ToList();
+
+			foreach (var item in listMenu.Where(x => x.ParentId > 0).ToList())
+				item.ParentMenuName = listMenu.Where(x => x.Id == item.ParentId).Select(x => x.Name).FirstOrDefault();
+
+			if (Common.IsSuperAdmin())
+			{
+				CommonViewModel.SelectListItems = (from x in listMenu.ToList()
+												   where !x.Name.ToLower().Contains("menu") //x.IsSuperAdmin == Common.IsSuperAdmin() && x.IsAdmin == Common.IsAdmin()
+												   select new SelectListItem_Custom(Convert.ToString(x.Id + "_" + x.ParentId), Convert.ToString(x.Name) + (x.ParentId > 0 ? " (" + Convert.ToString(x.ParentMenuName) + " )" : ""))).ToList();
+			}
+			else
+			{
+				CommonViewModel.SelectListItems = (from x in listMenu.ToList()
+												   where x.IsSuperAdmin == false && !x.Name.ToLower().Contains("menu")
+												   select new SelectListItem_Custom(Convert.ToString(x.Id + "_" + x.ParentId), Convert.ToString(x.Name) + (x.ParentId > 0 ? " (" + Convert.ToString(x.ParentMenuName) + " )" : ""))).ToList();
+			}
+
+			var list = _context.RoleMenuAccesses.AsNoTracking().ToList().Where(x => x.RoleId == CommonViewModel.Obj.Id).ToList();
+
+			if (list != null && list.Count() > 0)
+			{
+				string[] selected = (from x in list
+									 join y in listMenu on x.MenuId equals y.Id
+									 where !y.Name.ToLower().Contains("menu") && !y.Name.ToLower().Contains("menu")
+									 select Convert.ToString(x.MenuId + "_" + y.ParentId)).ToArray();
+
+				if (selected != null && selected.Length > 0)
+					CommonViewModel.Obj.CreatedDate_Text = string.Join(",", selected) + ",";
+			}
 
 			return PartialView("_Partial_AddEditForm", CommonViewModel);
 		}
@@ -71,47 +104,95 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 
 					#region Database-Transaction
 
-					//using (var transaction = _context.Database.BeginTransaction())
-					//{
-					try
+					using (var transaction = _context.Database.BeginTransaction())
 					{
-
-						Role obj = _context.Roles.AsNoTracking().Where(x => x.Id > 1 && x.Id == viewModel.Id).FirstOrDefault();
-
-						if (viewModel != null && !(viewModel.DisplayOrder > 0))
-							viewModel.DisplayOrder = (_context.Roles.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;
-
-						if (Common.IsSuperAdmin() && Common.IsAdmin() && obj != null)
+						try
 						{
-							obj.Name = viewModel.Name;
-							obj.DisplayOrder = viewModel.DisplayOrder;
-							obj.IsAdmin = Common.IsSuperAdmin() ? viewModel.IsAdmin : false;
-							obj.IsActive = viewModel.IsActive;
 
-							_context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
-							_context.SaveChanges();
+							Role obj = _context.Roles.AsNoTracking().Where(x => x.Id > 1 && x.Id == viewModel.Id).FirstOrDefault();
+
+							if (viewModel != null && !(viewModel.DisplayOrder > 0))
+								viewModel.DisplayOrder = (_context.Roles.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;
+
+							if (Common.IsSuperAdmin() && Common.IsAdmin() && obj != null)
+							{
+								obj.Name = viewModel.Name;
+								obj.DisplayOrder = viewModel.DisplayOrder;
+								obj.IsAdmin = Common.IsSuperAdmin() ? viewModel.IsAdmin : false;
+								obj.IsActive = viewModel.IsActive;
+
+								_context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+								_context.SaveChanges();
+							}
+							else if (Common.IsSuperAdmin() && Common.IsAdmin())
+							{
+								viewModel.IsAdmin = Common.IsSuperAdmin() ? viewModel.IsAdmin : false;
+
+								_context.Roles.Add(viewModel);
+								_context.SaveChanges();
+								_context.Entry(viewModel).Reload();
+							}
+
+
+							try
+							{
+								var listRoleMenuAccesses = _context.RoleMenuAccesses.AsNoTracking().ToList().Where(x => x.RoleId == viewModel.Id).ToList();
+
+								if (listRoleMenuAccesses != null && listRoleMenuAccesses.Count() > 0)
+								{
+									foreach (var access in listRoleMenuAccesses)
+									{
+										_context.Entry(access).State = System.Data.Entity.EntityState.Deleted;
+										_context.SaveChanges();
+									}
+								}
+
+								if (!string.IsNullOrEmpty(viewModel.CreatedDate_Text))
+								{
+									var list = viewModel.CreatedDate_Text.Split(',');
+
+									foreach (var item in list.Where(x => !string.IsNullOrEmpty(x)))
+									{
+										try
+										{
+											var roleMenuAccess = new RoleMenuAccess()
+											{
+												MenuId = Convert.ToInt64(item.Split('_')[0]),
+												RoleId = viewModel.Id,
+												IsCreate = true,
+												IsUpdate = true,
+												IsRead = true,
+												IsDelete = true,
+												IsActive = true,
+												IsDeleted = false,
+												IsSetDefault = true
+											};
+
+											_context.RoleMenuAccesses.Add(roleMenuAccess);
+											_context.SaveChanges();
+										}
+										catch (Exception) { continue; }
+									}
+
+
+								}
+
+							}
+							catch (Exception) { }
+
+							CommonViewModel.IsConfirm = true;
+							CommonViewModel.IsSuccess = true;
+							CommonViewModel.StatusCode = ResponseStatusCode.Success;
+							CommonViewModel.Message = ResponseStatusMessage.Success;
+							CommonViewModel.RedirectURL = Url.Action("Index", "Role", new { area = "Admin" });
+
+							transaction.Commit();
+
+							return Json(CommonViewModel);
 						}
-						else if (Common.IsSuperAdmin() && Common.IsAdmin())
-						{
-							viewModel.IsAdmin = Common.IsSuperAdmin() ? viewModel.IsAdmin : false;
-
-							_context.Roles.Add(viewModel);
-							_context.SaveChanges();
-						}
-
-						CommonViewModel.IsConfirm = true;
-						CommonViewModel.IsSuccess = true;
-						CommonViewModel.StatusCode = ResponseStatusCode.Success;
-						CommonViewModel.Message = ResponseStatusMessage.Success;
-						CommonViewModel.RedirectURL = Url.Action("Index", "Role", new { area = "Admin" });
-
-						//transaction.Commit();
-
-						return Json(CommonViewModel);
+						catch (Exception ex)
+						{ transaction.Rollback(); }
 					}
-					catch (Exception ex)
-					{ /*transaction.Rollback();*/ }
-					//}
 
 					#endregion
 				}

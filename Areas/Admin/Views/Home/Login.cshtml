@@ -67,8 +67,7 @@
                             <div class="form-outline mb-4 col-sm-12">
                                 <label class="form-label" for="UserId">User Id</label>
                                 <input type="text" id="UserName" name="UserName" class="form-control" placeholder="User name"
-                                       data-required data-msg="The Username field is required." autocomplete="off"
-                                       onchange="fnChange_UserName(this)">
+                                       data-required data-msg="The Username field is required." autocomplete="off">
                             </div>
                             <div class="form-outline mb-4 col-sm-12">
                                 <label for="Password" class="col-sm-2 col-form-label">Password</label>
@@ -79,7 +78,7 @@
                             </div>
                             <div class="form-group-row mb-4 col-sm-12 d-none">
                                 <label class="form-label" for="selectCompany">Company</label>
-                                <select name="CompanyId" id="selectCompany" class="form-control" onchange="fnChange_Company(this)"> </select>
+                                <select name="CompanyId" id="selectCompany" class="form-control"> </select>
                             </div>
                             <div class="form-group-row mb-4 col-sm-12 d-none">
                                 <label class="form-label" for="selectBranch">Branch</label>
@@ -93,7 +92,7 @@
                             </div>
 
                             <div class="text-center text-lg-start mt-4 pt-2">
-                                <button type="button" class="btn btnSubmit" style="background-color:navy;color:white">Log in</button>
+                                <button type="button" class="btn" style="background-color:navy;color:white" onclick="fnSubmitForm('formLogin')">Log in</button>
                             </div>
 
                         }
@@ -114,13 +113,22 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            //setTimeout(function () { $("#UserName").trigger('change'); }, 500);
+
+            $('body').on('blur', '#UserName', function (e) {
+                e.preventDefault();
+                fnChange_UserName(e.target);
+            });
+
+            $('body').on('change', '#selectCompany', function (e) {
+                e.preventDefault();
+                fnChange_Company(e.target);
+            });
 
         });
 
         function fnChange_UserName($this) {
-            ShowLoader(true);
-
-            
+            debugger;
             var selectCompany = $("#selectCompany");
             selectCompany.empty();
             selectCompany.append('<option value="0">-- Select --</option>');
@@ -128,6 +136,7 @@
                 selectCompany.parent('div').addClass('d-none')
 
             if ($this.value != 'undefined' && $this.value != null && $this.value.trim() != "") {
+                ShowLoader(true);
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetCompany", "Home", new { area = "Admin" })",
@@ -162,8 +171,6 @@
         }
 
         function fnChange_Company($this) {
-            ShowLoader(true);
-            
             var UserName = $("#UserName").val();
             var selectBranch = $("#selectBranch");
             selectBranch.empty();
@@ -172,6 +179,7 @@
                 selectBranch.parent('div').addClass('d-none')
 
             if ($this.value != 'undefined' && $this.value != null && $this.value.trim() != "") {
+                ShowLoader(true);
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetBranch", "Home", new { area = "Admin" })",

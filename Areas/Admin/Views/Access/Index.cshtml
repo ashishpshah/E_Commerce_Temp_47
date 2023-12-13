@@ -38,7 +38,7 @@
                         <form id="formSave" action="@Url.Action("Save","Access", new {  area = "Admin"})" method="post">
                             <div class="row no-gutters">
                                 <div class="col-sm-6">
-                                    <div class="form-group row">
+                                    <div class="form-group row @(Model.SelectListItems != null && Model.SelectListItems.Count() == 1 ? "d-none":"")">
                                         <label for="Obj.CompanyId" class="col-sm-2 col-form-label text-right">Company</label>
                                         <div class="col-sm-6">
                                             <select id="ddlCompany" name="Obj.CompanyId" class="form-control form-control-sm select2" onchange="fnChange_Company(this)">
@@ -131,6 +131,12 @@
 		var dataTableMain = null;
 		$(document).ready(function () {
 
+            var selectedCompany = '@(Model.SelectListItems != null && Model.SelectListItems.Count() == 1 ? Model.SelectListItems.Select(x=>x.Value).FirstOrDefault():"")';
+
+            if (selectedCompany != 'undefined' && selectedCompany != null && selectedCompany.trim() != "" && parseInt(selectedCompany) > 0) {
+                $('#ddlCompany').val(selectedCompany);
+                $('#ddlCompany').trigger('change');
+            }
 		});
 
         function fnChange_Switch_Custom($this, no) {
@@ -153,7 +159,7 @@
         }
 
         function fnChange_Switch_Success($this, $labelId) {
-            
+
             var no = $($this).parents('tr').attr('id').replace('tr_', '');
 
             $('input[type="checkbox"][id="switch_Check_' + no + '"]').removeClass("checkboxAll");
@@ -161,7 +167,7 @@
                 ($('#table_Access tbody tr#tr_' + no + ' input[type="checkbox"][id!="switch_Check_' + no + '"]:checked').length ==
                 $('#table_Access tbody tr#tr_' + no + ' input[type="checkbox"][id!="switch_Check_' + no + '"]').length));
 
-            
+
             $('input[type="checkbox"][id="switch_Check_' + no + '"]').addClass("checkboxAll")
 
             //if ($labelId.indexOf('label_Switch_Check_') >= 0) {
@@ -192,11 +198,14 @@
 					data: { CompanyId: $this.value },
 					success: function (response) {
 						ShowLoader(false);
-						if (response != null && response.length > 0) {
+                        if (response != null && response.length > 1) {
 							$.each(response, function () {
 								ddlBranch.append($("<option></option>").val(this['Value']).html(this['Text']));
 							});
-						}
+                        }
+                        else if (response != null && response.length == 1) {
+                            ddlBranch.append($("<option selected></option>").val(response[0]['Value']).html(response[0]['Text']));
+                        }
 
 						$("#ddlBranch").trigger('change');
 						$('.select2').select2();

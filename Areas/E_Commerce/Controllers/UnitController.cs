@@ -77,9 +77,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 					try
 					{
 
-						EC_Unit obj = new EC_Unit();
-
-						obj = _context.Units.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id).FirstOrDefault();
+						EC_Unit obj = _context.Units.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id).FirstOrDefault();
 
 						//if (viewModel != null && !(viewModel.DisplayOrder > 0))
 						//	viewModel.DisplayOrder = (_context.Companies.AsNoTracking().Max(x => x.DisplayOrder) ?? 0) + 1;

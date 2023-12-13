@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace BaseStructure_47.Areas.Admin.Controllers
 {
@@ -60,6 +61,11 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			if (CommonViewModel.Obj != null)
 				CommonViewModel.Data2 = _context.Branches.AsNoTracking().ToList().Where(x => x.CompanyId == CommonViewModel.Obj.CompanyId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).Distinct().ToList();
 
+			CommonViewModel.Obj.User_Id_Str = CommonViewModel.Obj.Id > 0 ? Common.Encrypt(CommonViewModel.Obj.Id.ToString()) : null;
+			CommonViewModel.Obj.Role_Id_Str = CommonViewModel.Obj.User_Role_Id > 0 ? Common.Encrypt(CommonViewModel.Obj.User_Role_Id.ToString()) : null;
+			CommonViewModel.Obj.Company_Id_Str = CommonViewModel.Obj.CompanyId > 0 ? Common.Encrypt(CommonViewModel.Obj.CompanyId.ToString()) : null;
+			CommonViewModel.Obj.Branch_Id_Str = CommonViewModel.Obj.BranchId > 0 ? Common.Encrypt(CommonViewModel.Obj.BranchId.ToString()) : null;
+
 			return PartialView("_Partial_AddEditForm", CommonViewModel);
 		}
 
@@ -101,15 +107,15 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 						return Json(CommonViewModel);
 					}
 
-					if (_context.Users.AsNoTracking().Any(x => x.UserName.ToLower() == viewModel.Obj.UserName.ToLower()))
-					{
+					//if (_context.Users.AsNoTracking().Any(x => x.UserName.ToLower() == viewModel.Obj.UserName.ToLower()))
+					//{
 
-						CommonViewModel.Message = "Username already exist. Please try another Username.";
-						CommonViewModel.IsSuccess = false;
-						CommonViewModel.StatusCode = ResponseStatusCode.Error;
+					//	CommonViewModel.Message = "Username already exist. Please try another Username.";
+					//	CommonViewModel.IsSuccess = false;
+					//	CommonViewModel.StatusCode = ResponseStatusCode.Error;
 
-						return Json(CommonViewModel);
-					}
+					//	return Json(CommonViewModel);
+					//}
 
 					if (string.IsNullOrEmpty(viewModel.Obj.Password) && viewModel.Obj.Id == 0)
 					{
@@ -153,11 +159,16 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 						return Json(CommonViewModel);
 					}
 
+					long Decrypt_Id = !string.IsNullOrEmpty(viewModel.Obj.User_Id_Str) ? Convert.ToInt64(Common.Decrypt(viewModel.Obj.User_Id_Str)) : 0;
+					long Decrypt_RoleId = !string.IsNullOrEmpty(viewModel.Obj.Role_Id_Str) ? Convert.ToInt64(Common.Decrypt(viewModel.Obj.Role_Id_Str)) : 0;
+					long Decrypt_CompanyId = !string.IsNullOrEmpty(viewModel.Obj.Company_Id_Str) ? Convert.ToInt64(Common.Decrypt(viewModel.Obj.Company_Id_Str)) : 0;
+					long Decrypt_BranchId = !string.IsNullOrEmpty(viewModel.Obj.Branch_Id_Str) ? Convert.ToInt64(Common.Decrypt(viewModel.Obj.Branch_Id_Str)) : 0;
+
 					var objAvailable = (from x in _context.Users.AsNoTracking().ToList()
 										join y in _context.UserRoleMappings.AsNoTracking().ToList() on x.Id equals y.UserId
 										join z in _context.Roles.AsNoTracking().ToList() on y.RoleId equals z.Id
 										where x.UserName.ToLower().Trim().Replace(" ", "") == viewModel.Obj.UserName.ToLower().Trim().Replace(" ", "")
-										&& x.Id != viewModel.Obj.Id && y.CompanyId != viewModel.Obj.CompanyId && y.BranchId != viewModel.Obj.BranchId && z.Id != viewModel.Obj.User_Role_Id
+										&& x.Id != Decrypt_Id && y.CompanyId == viewModel.Obj.CompanyId && y.BranchId == viewModel.Obj.BranchId
 										select new User() { Id = x.Id, UserName = x.UserName, User_Role_Id = z.Id, User_Role = z.Name, CompanyId = y.CompanyId, BranchId = y.BranchId }).FirstOrDefault();
 
 					if (objAvailable != null || viewModel.Obj.User_Role_Id == 1)
@@ -175,48 +186,73 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 
 					#region Database-Transaction
 
-					//using (var transaction = _context.Database.BeginTransaction())
-					//{
-					try
+					using (var transaction = _context.Database.BeginTransaction())
 					{
-
-						//User obj = _context.Users.Where(x => x.UserName.ToLower().Replace(" ", "") == viewModel.Obj.UserName.ToLower().Replace(" ", "")).FirstOrDefault();
-						User obj = _context.Users.AsNoTracking().ToList().Where(x => x.Id == viewModel.Obj.Id).FirstOrDefault();
-
-						if (obj != null)
+						try
 						{
-							obj.CompanyId = viewModel.Obj.CompanyId;
-							obj.BranchId = viewModel.Obj.BranchId;
-							obj.UserName = viewModel.Obj.UserName;
-							//obj.Password = Common.Encrypt(viewModel.Obj.Password);
-							obj.IsActive = viewModel.Obj.IsActive;
+							//User obj = _context.Users.Where(x => x.UserName.ToLower().Replace(" ", "") == viewModel.Obj.UserName.ToLower().Replace(" ", "")).FirstOrDefault();
+							User obj = _context.Users.AsNoTracking().ToList().Where(x => x.Id == Decrypt_Id).FirstOrDefault();
 
-							if (viewModel.Obj.IsPassword_Reset == true)
-								obj.Password = Common.Encrypt("12345");
-
-							_context.Users.Add(obj);
-							_context.SaveChanges();
-
-							if (viewModel.Obj.RoleId != viewModel.Obj.User_Role_Id)
+							if (obj != null)
 							{
+								obj.CompanyId = viewModel.Obj.CompanyId;
+								obj.BranchId = viewModel.Obj.BranchId;
+								obj.UserName = viewModel.Obj.UserName;
+								//obj.Password = Common.Encrypt(viewModel.Obj.Password);
+								obj.IsActive = viewModel.Obj.IsActive;
 
+								if (viewModel.Obj.IsPassword_Reset == true)
+									obj.Password = Common.Encrypt("12345");
+
+								_context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+								_context.SaveChanges();
+
+							}
+							else
+							{
+								viewModel.Obj.Password = Common.Encrypt(viewModel.Obj.Password);
+
+								_context.Users.Add(viewModel.Obj);
+								_context.SaveChanges();
+								_context.Entry(viewModel.Obj).Reload();
+
+							}
+
+
+							var role = _context.Roles.AsNoTracking().Where(x => x.Id == viewModel.Obj.User_Role_Id).FirstOrDefault();
+
+							if (role != null && (Decrypt_RoleId != viewModel.Obj.User_Role_Id || Decrypt_CompanyId != viewModel.Obj.CompanyId || Decrypt_BranchId != viewModel.Obj.BranchId))
+							{
 								try
 								{
-									UserRoleMapping UserRole = _context.UserRoleMappings.AsNoTracking().ToList().Where(x => x.UserId == viewModel.Obj.Id && x.RoleId == viewModel.Obj.RoleId
-									&& x.CompanyId == viewModel.Obj.CompanyId && x.BranchId == viewModel.Obj.BranchId).FirstOrDefault();
+									UserRoleMapping UserRole = _context.UserRoleMappings.AsNoTracking().ToList().Where(x => x.UserId == Decrypt_Id && x.RoleId == Decrypt_RoleId
+																&& x.CompanyId == Decrypt_CompanyId && x.BranchId == Decrypt_BranchId).FirstOrDefault();
 
-									UserRole.RoleId = viewModel.Obj.User_Role_Id;
-
-									_context.UserRoleMappings.Add(UserRole);
-									_context.SaveChanges();
-
-									var listUserMenuAccess = _context.UserMenuAccesses.AsNoTracking().ToList().Where(x => x.Id == viewModel.Obj.Id && x.RoleId == viewModel.Obj.RoleId
-									&& x.CompanyId == viewModel.Obj.CompanyId && x.BranchId == viewModel.Obj.BranchId).ToList();
-
-									foreach (var item in listUserMenuAccess)
+									if (UserRole != null)
 									{
-										_context.UserMenuAccesses.Remove(item);
+										UserRole.CompanyId = viewModel.Obj.CompanyId;
+										UserRole.BranchId = viewModel.Obj.BranchId;
+										UserRole.RoleId = viewModel.Obj.User_Role_Id;
+
+										_context.Entry(UserRole).State = System.Data.Entity.EntityState.Modified;
 										_context.SaveChanges();
+									}
+									else
+									{
+										_context.UserRoleMappings.Add(new UserRoleMapping() { UserId = viewModel.Obj.Id, RoleId = viewModel.Obj.User_Role_Id, CompanyId = viewModel.Obj.CompanyId, BranchId = viewModel.Obj.BranchId });
+										_context.SaveChanges();
+									}
+
+									var listUserMenuAccess = _context.UserMenuAccesses.AsNoTracking().ToList().Where(x => x.UserId == Decrypt_Id && x.RoleId == Decrypt_RoleId
+																&& x.CompanyId == Decrypt_CompanyId && x.BranchId == Decrypt_BranchId).ToList();
+
+									if (listUserMenuAccess != null && listUserMenuAccess.Count() > 0)
+									{
+										foreach (var access in listUserMenuAccess)
+										{
+											_context.Entry(access).State = System.Data.Entity.EntityState.Deleted;
+											_context.SaveChanges();
+										}
 									}
 
 									foreach (var item in _context.RoleMenuAccesses.AsNoTracking().ToList().Where(x => x.RoleId == viewModel.Obj.User_Role_Id).ToList())
@@ -236,6 +272,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 											IsDeleted = item.IsDelete,
 											IsSetDefault = true
 										};
+
 										_context.UserMenuAccesses.Add(userMenuAccess);
 										_context.SaveChanges();
 									}
@@ -243,60 +280,22 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 								}
 								catch (Exception ex) { }
 							}
+
+
+
+							CommonViewModel.IsConfirm = true;
+							CommonViewModel.IsSuccess = true;
+							CommonViewModel.StatusCode = ResponseStatusCode.Success;
+							CommonViewModel.Message = "Record saved successfully ! ";
+							CommonViewModel.RedirectURL = Url.Action("Index", "User", new { area = "Admin" });
+
+							transaction.Commit();
+
+							return Json(CommonViewModel);
 						}
-						else
-						{
-							viewModel.Obj.Password = Common.Encrypt(viewModel.Obj.Password);
-
-							_context.Users.Add(viewModel.Obj);
-							_context.SaveChanges();
-							_context.Entry(viewModel.Obj).Reload();
-
-							try
-							{
-								_context.UserRoleMappings.Add(new UserRoleMapping() { UserId = viewModel.Obj.Id, RoleId = viewModel.Obj.User_Role_Id, CompanyId = viewModel.Obj.CompanyId, BranchId = viewModel.Obj.BranchId });
-								_context.SaveChanges();
-
-								foreach (var item in _context.RoleMenuAccesses.AsNoTracking().ToList().Where(x => x.RoleId == viewModel.Obj.User_Role_Id).ToList())
-								{
-									var userMenuAccess = new UserMenuAccess()
-									{
-										MenuId = item.MenuId,
-										UserId = viewModel.Obj.Id,
-										RoleId = viewModel.Obj.User_Role_Id,
-										CompanyId = viewModel.Obj.CompanyId,
-										BranchId = viewModel.Obj.BranchId,
-										IsCreate = item.IsCreate,
-										IsUpdate = item.IsUpdate,
-										IsRead = item.IsRead,
-										IsDelete = item.IsDelete,
-										IsActive = item.IsActive,
-										IsDeleted = item.IsDelete,
-										IsSetDefault = true
-									};
-
-									_context.UserMenuAccesses.Add(userMenuAccess);
-									_context.SaveChanges();
-								}
-
-							}
-							catch (Exception ex) { }
-						}
-
-
-						CommonViewModel.IsConfirm = true;
-						CommonViewModel.IsSuccess = true;
-						CommonViewModel.StatusCode = ResponseStatusCode.Success;
-						CommonViewModel.Message = "Record saved successfully ! ";
-						CommonViewModel.RedirectURL = Url.Action("Index", "User", new { area = "Admin" });
-
-						//transaction.Commit();
-
-						return Json(CommonViewModel);
+						catch (Exception ex)
+						{ transaction.Rollback(); }
 					}
-					catch (Exception ex)
-					{ /*transaction.Rollback();*/ }
-					//}
 
 					#endregion
 				}

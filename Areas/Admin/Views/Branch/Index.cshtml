@@ -47,7 +47,7 @@
                             <div class="col-md-12 my-1">
                                 <table id="table_Common_SrNo" class="table table-bordered table-striped divformSave_Hide">
                                     <thead>
-                                        <tr><th class="no_sorting">#</th><th>Company</th><th>Branch</th><th width="5%">Status</th><th>Action</th></tr>
+                                        <tr><th class="no_sorting">#</th><th>Branch</th><th>Company</th><th width="5%">Status</th><th>Action</th></tr>
                                     </thead>
                                     <tbody>
 
@@ -57,8 +57,8 @@
                                             {
                                                 <tr>
                                                     <td></td>
-                                                    <td>@item.CompanyName</td>
                                                     <td>@item.Name</td>
+                                                    <td>@item.CompanyName</td>
                                                     <td class="text-center"><span class="badge bg-@(item.IsActive == true ? "success" : "danger")">@(item.IsActive == true ? "Active" : "Inactive")</span></td>
                                                     <td>
                                                         <div class="btn-group">
@@ -81,7 +81,7 @@
                                                 </tr>
                                             }
                                         }
-                                        </tbody>
+                                    </tbody>
                                 </table>
                             </div>
 

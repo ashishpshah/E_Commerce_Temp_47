@@ -79,11 +79,11 @@
                             </div>
                             <div class="form-group-row mb-4 col-sm-12 d-none">
                                 <label class="form-label" for="selectCompany">Company</label>
-                                <select name="CompanyId" id="selectCompany" class="form-control" onchange="fnChange_Company(this)"> </select>
+                                <select name="CompanyId" id="selectCompany" class="form-control" onchange="fnChange_Company(this)"><option value="0">-- Select --</option></select>
                             </div>
                             <div class="form-group-row mb-4 col-sm-12 d-none">
                                 <label class="form-label" for="selectBranch">Branch</label>
-                                <select name="BranchId" id="selectBranch" class="form-control"> </select>
+                                <select name="BranchId" id="selectBranch" class="form-control"><option value="0">-- Select --</option></select>
                             </div>
                             <input type="text" class="d-none" id="usertype" name="User_Type">
                             <div class="d-flex justify-content-between align-items-center">
@@ -93,7 +93,7 @@
                             </div>
 
                             <div class="text-center text-lg-start mt-4 pt-2">
-                                <button type="button" class="btn btnSubmit" style="background-color:navy;color:white">Log in</button>
+                                <button type="button" class="btn" style="background-color:navy;color:white" onclick="fnSubmitForm('formLogin')">Log in</button>
                             </div>
 
                         }
@@ -114,13 +114,12 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            setTimeout(function () { $("#UserName").trigger('change'); }, 500);
+
 
         });
 
         function fnChange_UserName($this) {
-            ShowLoader(true);
-
-
             var selectCompany = $("#selectCompany");
             selectCompany.empty();
             selectCompany.append('<option value="0">-- Select --</option>');
@@ -128,6 +127,8 @@
                 selectCompany.parent('div').addClass('d-none')
 
             if ($this.value != 'undefined' && $this.value != null && $this.value.trim() != "") {
+
+                ShowLoader(true);
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetCompany", "Home", new { area = "" })",
@@ -162,8 +163,6 @@
         }
 
         function fnChange_Company($this) {
-            ShowLoader(true);
-
             var UserName = $("#UserName").val();
             var selectBranch = $("#selectBranch");
             selectBranch.empty();
@@ -172,6 +171,7 @@
                 selectBranch.parent('div').addClass('d-none')
 
             if ($this.value != 'undefined' && $this.value != null && $this.value.trim() != "") {
+                ShowLoader(true);
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetBranch", "Home", new { area = "" })",

@@ -97,6 +97,26 @@
         $(document).ready(function () {
 
         });
+
+        function fnChange_Checkbox($this) {
+            debugger;
+
+            var selectedValue = $('#selectedMenu').val();
+
+            if (selectedValue == 'undefined' || selectedValue == null)
+                selectedValue = "";
+
+            if ($this.checked && selectedValue.indexOf($this.value) == -1) {
+                selectedValue = selectedValue + $this.value + ",";
+            }
+            else if (!$this.checked && selectedValue.indexOf($this.value) > -1) {
+                selectedValue = selectedValue.replace($this.value + ",", "");
+                selectedValue = selectedValue.replace($this.value, "");
+            }
+
+            $('#selectedMenu').val(selectedValue);
+            $('#selectedMenu').trigger('change');
+        }
     </script>
 }
 

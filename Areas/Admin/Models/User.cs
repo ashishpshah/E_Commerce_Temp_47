@@ -11,6 +11,8 @@ namespace BaseStructure_47
 	public partial class User : EntitiesBase
 	{
 		public override long Id { get; set; }
+		public long CompanyId { get; set; }
+		public long BranchId { get; set; }
 
 		[NotMapped] public string UserId { get; set; }
 		public string UserName { get; set; }
@@ -25,12 +27,25 @@ namespace BaseStructure_47
 		[NotMapped] public string User_Role { get; set; }
 		[NotMapped] public long User_Role_Id { get; set; }
 		[NotMapped] public long RoleId { get; set; }
-		[NotMapped] public long CompanyId { get; set; }
-		[NotMapped] public long BranchId { get; set; }
 		[NotMapped] public string CompanyName { get; set; }
 		[NotMapped] public string BranchName { get; set; }
 		[NotMapped] public bool IsPassword_Reset { get; set; }
 		[NotMapped] public DateTime? Date { get; set; }
 		[NotMapped] public string Date_Text { get; set; }
+		[NotMapped] public string User_Id_Str { get; set; }
+		[NotMapped] public string Role_Id_Str { get; set; }
+		[NotMapped] public string Company_Id_Str { get; set; }
+		[NotMapped] public string Branch_Id_Str { get; set; }
+
+
+		//[NotMapped] public string Get_User_Id => this.Id > 0 ? Common.Encrypt(this.Id.ToString()) : null;
+		//[NotMapped] public string Get_Role_Id => this.Id > 0 ? Common.Encrypt(this.RoleId.ToString()) : null;
+		//[NotMapped] public string Get_Company_Id => this.Id > 0 ? Common.Encrypt(this.CompanyId.ToString()) : null;
+		//[NotMapped] public string Get_Branch_Id => this.Id > 0 ? Common.Encrypt(this.BranchId.ToString()) : null;
+
+		//[NotMapped] public long Decrypt_Id { get { return !string.IsNullOrEmpty(this.Id) ? Convert.ToInt64(Common.Decrypt(this.Id)) : 0; } }
+		//[NotMapped] public long Decrypt_RoleId { get { return !string.IsNullOrEmpty(this.Id) ? Convert.ToInt64(Common.Decrypt(this.Id)) : 0; } }
+		//[NotMapped] public long Decrypt_CompanyId { get { return !string.IsNullOrEmpty(this.Id) ? Convert.ToInt64(Common.Decrypt(this.Id)) : 0; } }
+		//[NotMapped] public long Decrypt_BranchId { get { return !string.IsNullOrEmpty(this.Id) ? Convert.ToInt64(Common.Decrypt(this.Id)) : 0; } }
 	}
 }

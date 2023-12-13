@@ -80,7 +80,7 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 					try
 					{
 						//Company obj = _context.Companies.AsNoTracking().Where(x => x.Id > 1 && x.Id == viewModel.Id).FirstOrDefault();
-						Company obj = new Company();
+						Company obj = null;
 
 						if (Common.IsSuperAdmin() && Common.IsAdmin() && viewModel.Id > 0)
 							obj = _context.Companies.AsNoTracking().Where(x => x.Id == viewModel.Id).FirstOrDefault();

@@ -93,9 +93,7 @@ namespace BaseStructure_47.Areas.E_Commerce.Controllers
 						viewModel.CompanyId = Common.Get_Session_Int(SessionKey.COMPANY_ID);
 						viewModel.BranchId = Common.Get_Session_Int(SessionKey.BRANCH_ID);
 
-						EC_Category obj = new EC_Category();
-
-						obj = _context.Category.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id
+						EC_Category obj = _context.Category.AsNoTracking().ToList().Where(x => x.Id == viewModel.Id
 									&& x.CompanyId == Common.Get_Session_Int(SessionKey.COMPANY_ID)
 									&& x.BranchId == Common.Get_Session_Int(SessionKey.BRANCH_ID)).FirstOrDefault();
 
