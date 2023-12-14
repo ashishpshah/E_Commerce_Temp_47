@@ -38,12 +38,14 @@ namespace BaseStructure_47.Areas.Admin.Controllers
 			{
 				CommonViewModel.SelectListItems = (from x in listMenu.ToList()
 												   where !x.Name.ToLower().Contains("menu") //x.IsSuperAdmin == Common.IsSuperAdmin() && x.IsAdmin == Common.IsAdmin()
+												   orderby x.ParentId, x.DisplayOrder
 												   select new SelectListItem_Custom(Convert.ToString(x.Id + "_" + x.ParentId), Convert.ToString(x.Name) + (x.ParentId > 0 ? " (" + Convert.ToString(x.ParentMenuName) + " )" : ""))).ToList();
 			}
 			else
 			{
 				CommonViewModel.SelectListItems = (from x in listMenu.ToList()
 												   where x.IsSuperAdmin == false && !x.Name.ToLower().Contains("menu")
+												   orderby x.ParentId, x.DisplayOrder
 												   select new SelectListItem_Custom(Convert.ToString(x.Id + "_" + x.ParentId), Convert.ToString(x.Name) + (x.ParentId > 0 ? " (" + Convert.ToString(x.ParentMenuName) + " )" : ""))).ToList();
 			}
 

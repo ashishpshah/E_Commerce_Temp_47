@@ -55,25 +55,42 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label text-right">Select Menu</label>
                             <div class="col-sm-8 d-flex flex-wrap">
-                                @foreach (var item in Model.SelectListItems)
-                                {
-                                    if (selectedValue != null && selectedValue.Any(x => x == item.Value))
-                                    {
-                                        <div class="custom-control custom-checkbox mx-2">
-                                            <input class="custom-control-input" type="checkbox" id="checkbox_@item.Value" checked value="@item.Value" onchange="fnChange_Checkbox(this)">
-                                            <label for="checkbox_@item.Value" class="custom-control-label">@item.Text</label>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="custom-control custom-checkbox mx-2">
-                                            <input class="custom-control-input" type="checkbox" id="checkbox_@item.Value" value="@item.Value" onchange="fnChange_Checkbox(this)">
-                                            <label for="checkbox_@item.Value" class="custom-control-label">@item.Text</label>
-                                        </div>
-                                    }
-                                }
+                                @*@foreach (var item in Model.SelectListItems)
+                                        {
+                                            if (selectedValue != null && selectedValue.Any(x => x == item.Value))
+                                            {
+                                                <div class="custom-control custom-checkbox mx-2">
+                                                    <input class="custom-control-input" type="checkbox" id="checkbox_@item.Value" checked value="@item.Value" onchange="fnChange_Checkbox(this)">
+                                                    <label for="checkbox_@item.Value" class="custom-control-label">@item.Text</label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="custom-control custom-checkbox mx-2">
+                                                    <input class="custom-control-input" type="checkbox" id="checkbox_@item.Value" value="@item.Value" onchange="fnChange_Checkbox(this)">
+                                                    <label for="checkbox_@item.Value" class="custom-control-label">@item.Text</label>
+                                                </div>
+                                            }
+                                        }
 
-                                <input type="text" id="selectedMenu" name="CreatedDate_Text" value="@Model.Obj.CreatedDate_Text" class="d-none" />
+                                    <input type="text" id="selectedMenu" name="CreatedDate_Text" value="@Model.Obj.CreatedDate_Text" class="d-none" />*@
+
+                                <select multiple id="selectMenu" class="form-control select2 w-100" onchange="fnChange_Select('Menu')">
+                                    <option value="">-- Select --</option>
+                                    @foreach (var item in Model.SelectListItems)
+                                    {
+                                        if (selectedValue != null && selectedValue.Any(x => x == item.Value))
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+
+                                <input type="text" id="inputMenu" name="CreatedDate_Text" value="@Model.Obj.CreatedDate_Text" class="d-none" />
                             </div>
                         </div>
                     }
